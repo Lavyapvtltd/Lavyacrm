@@ -3,9 +3,10 @@ import {
   baseURL,
   UPDATE_ORDER,
   ASSIGN_ORDER,
+  GET_ALL_SUBSCRIPTION,
 } from "Components/helpers/url_helper";
 import axios from "axios";
-import { api_is_error, api_is_success } from "./reducer";
+import { api_is_error, api_is_success, fetched_by_status } from "./reducer";
 import Swal from "sweetalert2";
 
 export const GetAllOrders = () => async (dispatch: any) => {
@@ -62,7 +63,6 @@ export const UpdateOrder =
 
 export const AssigneOrder =
   (id: any, values: any, setShowStatus: any) => async (dispatch: any) => {
-    console.log("values:", values);
     try {
       const options = {
         method: "PATCH",
@@ -99,3 +99,28 @@ export const AssigneOrder =
       return error;
     }
   };
+
+export const OrderByStatus = (status: any) => async (dispatch: any) => {
+  console.log(`${baseURL}${GET_ALL_SUBSCRIPTION}/${status}`);
+  try {
+    const options = {
+      method: "GET",
+      url: `${baseURL}${GET_ALL_SUBSCRIPTION}/${status}`,
+    };
+    const apifetch = await axios.request(options);
+    const response: any = await apifetch;
+
+    if (response.baseResponse.status === 1) {
+      console.log("fetcched fro delivery");
+      dispatch(fetched_by_status(response.response));
+    } else {
+      console.log("unable to fetch");
+    }
+
+    return response;
+  } catch (error) {
+    console.log(error);
+
+    return error;
+  }
+};

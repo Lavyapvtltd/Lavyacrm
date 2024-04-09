@@ -3,15 +3,15 @@
 // export const imagebaseURL = "http://18.204.165.219:9291/resources/";
 
 // LIVE;
-// export const baseURL = "https://api.lavyacompany.com/api/v1";
-// export const imagebaseURL = "https://api.lavyacompany.com/resources/";
+export const baseURL = "https://api.lavyacompany.com/api/v1";
+export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
 // export const baseURL = "http://192.168.29.91:9291/api/v1";
 // export const imagebaseURL = "http://192.168.29.91:9291/resources/";
 
-export const baseURL = "http://192.168.1.5:9291/api/v1";
-export const imagebaseURL = "http://192.168.1.5:9291/resources/";
+// export const baseURL = "http://192.168.1.20:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.20:9291/resources/";
 
 // export const baseURL = "http://192.168.29.116:9291/api/v1";
 // export const imagebaseURL = "http://192.168.29.116:9291/resources/";
@@ -87,6 +87,10 @@ export const UPDATE_STOCK = "/stock/update-qty";
 export const GET_ALL_ORDERS = "/order/get-all-orders";
 export const UPDATE_ORDER = "/order/update-order-by-id";
 export const ASSIGN_ORDER = "/order/assign-to-partner";
+/* ORDER */
+
+/* ORDER */
+export const GET_ALL_SUBSCRIPTION = "/order/get-order-by-status";
 /* ORDER */
 
 /* ORDER */

@@ -6,6 +6,7 @@ const Navdata = () => {
   const [products, setProducts] = useState(false);
   const [categories, setCategories] = useState(false);
   const [order, setOrder] = useState(false);
+  const [delivery, setDelivery] = useState(false);
   const [location, setLocation] = useState(false);
 
   const [isPages, setIsPages] = useState(false);
@@ -91,6 +92,9 @@ const Navdata = () => {
       setIsPages(false);
     }
     if (isCurrentState !== "membership") {
+      setIsPages(false);
+    }
+    if (isCurrentState !== "delivery") {
       setIsPages(false);
     }
     if (isCurrentState !== "MuliLevel") {
@@ -234,17 +238,32 @@ const Navdata = () => {
           parentId: "Orders",
           stateVariables: isSignUp,
         },
-        // {
-        //   id: "sub-categories",
-        //   label: "Sub-Category",
-        //   link: "/sub-category",
-        //   click: function (e: any) {
-        //     e.preventDefault();
-        //     setIsSignUp(!isSignUp);
-        //   },
-        //   parentId: "Categories",
-        //   stateVariables: isSignUp,
-        // },
+      ],
+    },
+    {
+      id: "Delivery",
+      label: "Delivery details",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setDelivery(!delivery);
+        setIsCurrentState("delivery");
+        updateIconSidebar(e);
+      },
+      stateVariables: delivery,
+      subItems: [
+        {
+          id: "order",
+          label: "All Orders",
+          link: "/delivery-details",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Delivery",
+          stateVariables: isSignUp,
+        },
       ],
     },
     {

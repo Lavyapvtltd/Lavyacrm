@@ -6,15 +6,14 @@ import TableContainer from "@common/TableContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { imagebaseURL } from "Components/helpers/url_helper";
 import moment from "moment";
-import { GetAllOrders } from "Components/slices/order/thunk";
+import { GetAllOrders, OrderByStatus } from "Components/slices/order/thunk";
 import Custom_Modal from "@common/Modal";
-import UpdateStatus from "./updateStatusForm";
 import { is_selected_success } from "Components/slices/order/reducer";
 
-const Order = () => {
+const DeliveryDetails = () => {
   const dispatch: any = useDispatch();
   const { order } = useSelector((state: any) => ({
-    order: state.order.orderData,
+    order: state.order.fetchedbystatus,
   }));
 
   const [showStatus, setShowStatus] = useState(false);
@@ -141,6 +140,12 @@ const Order = () => {
                   {cellProps.status}
                 </span>
               );
+            case "NEXTDAYDELIVERY":
+              return (
+                <span className="badge text-warning bg-warning-subtle">
+                  {cellProps.status}
+                </span>
+              );
           }
         },
       },
@@ -148,14 +153,15 @@ const Order = () => {
     []
   );
   useEffect(() => {
-    dispatch(GetAllOrders());
+    dispatch(OrderByStatus("NEXTDAYDELIVERY"));
   }, []);
 
+  console.log(order);
   return (
     <Col xl={12}>
       <Card>
         <Card.Header className="align-items-center d-flex mb-n2">
-          <h4 className="card-title mb-0 flex-grow-1">Recent Orders</h4>
+          <h4 className="card-title mb-0 flex-grow-1">Delivery details</h4>
           <div className="flex-shrink-0">
             <Dropdown className="card-header-dropdown">
               <Dropdown.Toggle
@@ -180,10 +186,10 @@ const Order = () => {
             </Dropdown>
           </div>
         </Card.Header>
-        
+
         <TableContainer
           columns={columns || []}
-          data={order.response || []}
+          data={order || []}
           isGlobalFilter={false}
           iscustomPageSize={false}
           isBordered={false}
@@ -191,17 +197,9 @@ const Order = () => {
           tableClass="table-centered align-middle table-nowrap mb-0"
           theadClass="table-light"
         />
-        <Custom_Modal
-          show={showStatus}
-          title={"Update Status"}
-          onHide={() => setShowStatus(false)}
-          footer={<Button onClick={() => setShowStatus(false)}>Close</Button>}
-          children={<UpdateStatus />}
-          fullscreen={true}
-        />
       </Card>
     </Col>
   );
 };
 
-export default Order;
+export default DeliveryDetails;
