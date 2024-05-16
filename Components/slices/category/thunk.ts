@@ -6,6 +6,7 @@ import {
   baseURL,
   GET_ALL_SUB_CATEGORY_BY_CATID,
   GET_ALL_SUB_CATEGORY,
+  EDIT_CATEGORY,
 } from "Components/helpers/url_helper";
 import axios from "axios";
 import {
@@ -116,6 +117,56 @@ export const PostCategory = (values: any) => async (dispatch: any) => {
     dispatch(api_is_error(error));
   }
 };
+export const EditCategory =
+  (id: any, values: any, router: any) => async (dispatch: any) => {
+    try {
+      const form = new FormData();
+      form.append("categoryName", values.categoryName);
+      form.append("categoryImage", values.images);
+      form.append("categoryDescription", values.categoryDescription);
+
+      const options = {
+        method: "PATCH",
+        url: `${baseURL}${EDIT_CATEGORY}/${id}`,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        data: form,
+      };
+      dispatch(api_is_loading(true));
+
+      const apifetch = await axios.request(options);
+      dispatch(api_is_loading(true));
+      const response: any = await apifetch;
+      dispatch(api_is_loading(false));
+      if (response.status === 1) {
+        Swal.fire({
+          title: "Good job!",
+          text: response.message,
+          icon: "success",
+        }).then(() => {
+          dispatch(GetAllCategory());
+        });
+      } else {
+        Swal.fire({
+          title: "Success",
+          text: response.message,
+          icon: "success",
+        }).then(() => {
+          router.push("/category");
+          dispatch(GetAllCategory());
+        });
+      }
+      return response;
+    } catch (error: any) {
+      Swal.fire({
+        title: "error!",
+        text: error,
+        icon: "error",
+      });
+      dispatch(api_is_error(error));
+    }
+  };
 export const PostSubCategory = (values: any) => async (dispatch: any) => {
   try {
     const form = new FormData();

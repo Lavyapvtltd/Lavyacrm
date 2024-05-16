@@ -211,11 +211,44 @@ const UpdateStatus = () => {
                       readOnly
                     />
                   </Col>
+                  <Col md={4}>
+                    <Form.Label
+                      htmlFor="subCategoryDescription"
+                      className="form-label"
+                    >
+                      Payment Mode:
+                    </Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      placeholder="Enter Name"
+                      type="text"
+                      value={selectedorder.paymentOption}
+                      readOnly
+                    />
+                  </Col>
+                  <Col md={4}>
+                    <Form.Label
+                      htmlFor="subCategoryDescription"
+                      className="form-label"
+                    >
+                      Payment Amount:
+                    </Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      placeholder="Enter Name"
+                      type="text"
+                      value={
+                        selectedorder.paymentOption === "payViaCash"
+                          ? selectedorder.recharge_request
+                          : selectedorder.amount
+                      }
+                      readOnly
+                    />
+                  </Col>
                 </Row>
 
                 <h3 className="mt-5">Product Information</h3>
                 {selectedorder.product.map((item: any) => {
-                  console.log(item);
                   return (
                     <Row>
                       <Col md={4}>
@@ -253,7 +286,6 @@ const UpdateStatus = () => {
                           </Col>
                         </Row>
                       </Col>
-
                       <Col md={4}>
                         <Form.Label
                           htmlFor="subCategoryDescription"
@@ -265,7 +297,7 @@ const UpdateStatus = () => {
                           className="form-control"
                           placeholder="Enter Name"
                           type="text"
-                          value={`${item.unit} ${item.unitValue}`}
+                          value={`${item.unitValue} ${item.unit}`}
                           readOnly
                         />
                       </Col>
@@ -284,59 +316,54 @@ const UpdateStatus = () => {
                           readOnly
                         />
                       </Col>
+                      <Col md={4}>
+                        <Form.Label
+                          htmlFor="subCategoryDescription"
+                          className="form-label"
+                        >
+                          Product subscription type
+                        </Form.Label>
+                        <Form.Control
+                          className="form-control"
+                          placeholder="Enter Name"
+                          type="text"
+                          value={item.subscription_type}
+                          readOnly
+                        />
+                      </Col>
+                      <Col md={4}>
+                        <Form.Label
+                          htmlFor="subCategoryDescription"
+                          className="form-label"
+                        >
+                          Product ordered quantity
+                        </Form.Label>
+                        <Form.Control
+                          className="form-control"
+                          placeholder="Enter Name"
+                          type="text"
+                          value={`Quantity ${item.selQty}`}
+                          readOnly
+                        />
+                      </Col>
+                      <Col md={4}>
+                        <Form.Label
+                          htmlFor="subCategoryDescription"
+                          className="form-label"
+                        >
+                          Product Start Date
+                        </Form.Label>
+                        <Form.Control
+                          className="form-control"
+                          placeholder="Enter Name"
+                          type="text"
+                          value={`Date ${selectedorder.deliveryDate}`}
+                          readOnly
+                        />
+                      </Col>
                     </Row>
                   );
                 })}
-                <h3 className="mt-5">User Information</h3>
-                <Row>
-                  <Col md={4}>
-                    <Form.Label
-                      htmlFor="subCategoryName"
-                      className="form-label"
-                    >
-                      User name
-                    </Form.Label>
-                    <Col>
-                      <Form.Control
-                        className="form-control"
-                        placeholder="Enter Name"
-                        type="text"
-                        value={selectedorder.user.name}
-                        readOnly
-                      />
-                    </Col>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Label
-                      htmlFor="subCategoryDescription"
-                      className="form-label"
-                    >
-                      User Email
-                    </Form.Label>
-                    <Form.Control
-                      className="form-control"
-                      placeholder="Enter Name"
-                      type="text"
-                      value={`${selectedorder.user.email}`}
-                      readOnly
-                    />
-                  </Col>
-                  <Col md={4}>
-                    <Form.Label
-                      htmlFor="subCategoryDescription"
-                      className="form-label"
-                    >
-                      User Contact
-                    </Form.Label>
-                    <Form.Control
-                      className="form-control"
-                      placeholder="Enter Name"
-                      type="text"
-                      value={selectedorder.user.contact}
-                      readOnly
-                    />
-                  </Col>
-                </Row>
                 <h3 className="mt-5">Shipping Information</h3>
                 <Row>
                   <Col md={4}>
@@ -397,8 +424,58 @@ const UpdateStatus = () => {
                       Alternative Contact Number
                     </Form.Label>
                     <span className="form-control">
-                      {selectedorder.shippingaddress.alternatenumber}
+                      {selectedorder.shippingaddress.alternatephone}
                     </span>
+                  </Col>
+                </Row>
+                <h3 className="mt-5">User Information</h3>
+                <Row>
+                  <Col md={4}>
+                    <Form.Label
+                      htmlFor="subCategoryName"
+                      className="form-label"
+                    >
+                      User name
+                    </Form.Label>
+                    <Col>
+                      <Form.Control
+                        className="form-control"
+                        placeholder="Enter Name"
+                        type="text"
+                        value={selectedorder.user.name}
+                        readOnly
+                      />
+                    </Col>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Label
+                      htmlFor="subCategoryDescription"
+                      className="form-label"
+                    >
+                      User Email
+                    </Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      placeholder="Enter Name"
+                      type="text"
+                      value={`${selectedorder.user.email}`}
+                      readOnly
+                    />
+                  </Col>
+                  <Col md={4}>
+                    <Form.Label
+                      htmlFor="subCategoryDescription"
+                      className="form-label"
+                    >
+                      User Contact
+                    </Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      placeholder="Enter Name"
+                      type="text"
+                      value={selectedorder.user.contact}
+                      readOnly
+                    />
                   </Col>
                 </Row>
               </Row>

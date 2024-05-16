@@ -13,27 +13,28 @@ const Order = ({ orderId }: any) => {
       const response = await axios.get(
         `${baseURL}${DETAILS_OF_GATEWAY}/${orderId}`
       );
-
       const order: any = await response;
       setPaymentDetails(order.orderDetails.items);
     };
     fetchDetails();
   }, []);
+
   const successhandle = () => {
     router.push("/razor/success");
   };
+
   const failurewhandle = () => {
     router.push("/razor/failure");
   };
+
+  const isAnyCaptured = paymentDetails.some(
+    (payment: any) => payment.captured === true
+  );
   return (
     <div>
       <div className="text-center mx-5 my-5">
         {paymentDetails.length > 0 && (
-          <>
-            {paymentDetails[0].captured === true
-              ? successhandle()
-              : failurewhandle()}
-          </>
+          <>{isAnyCaptured === true ? successhandle() : failurewhandle()}</>
         )}
       </div>
     </div>

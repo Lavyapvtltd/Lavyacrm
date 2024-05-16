@@ -13,13 +13,19 @@ import SubCatForm from "../Sub_Category/form";
 import { useRouter } from "next/router";
 import { MdEditNote } from "react-icons/md";
 import { is_category_selected } from "Components/slices/category/reducer";
-const Categorytable = () => {
+import { GetRechargeOffer } from "Components/slices/offer/thunk";
+import { is_recharge_selected } from "Components/slices/offer/reducer";
+const Rechargetable = () => {
   const dispatch: any = useDispatch();
   const router = useRouter();
   const [showSubCategory, setShowSubCategory] = useState<boolean>(false);
-  const { categorydata } = useSelector((state: any) => ({
-    categorydata: state.CategorySlice.categorydata,
+  const { offerData } = useSelector((state: any) => ({
+    offerData: state.offer.offerData,
   }));
+
+  useEffect(() => {
+    dispatch(GetRechargeOffer());
+  }, []);
 
   const columns = useMemo(
     () => [
@@ -33,8 +39,10 @@ const Categorytable = () => {
                   <Link
                     href=""
                     onClick={() => {
-                      router.push(`/category/edit-category/${cellProps._id}`);
-                      dispatch(is_category_selected(cellProps));
+                      router.push(
+                        `/recharge/edit-recharge-offer/${cellProps._id}`
+                      );
+                      dispatch(is_recharge_selected(cellProps));
                     }}
                   >
                     <MdEditNote size={24} />
@@ -47,59 +55,18 @@ const Categorytable = () => {
         disableFilters: true,
         filterable: true,
       },
+
       {
-        Header: "Category Name",
-        accessor: (cellProps: any) => {
-          return (
-            <>
-              <div className="d-flex align-items-center">
-                <div className="flex-shrink-0 me-2">
-                  <img
-                    src={`${imagebaseURL}${cellProps.categoryImage}`}
-                    width="32"
-                    height={32}
-                    alt=""
-                    className="avatar-xs rounded-circle"
-                  />
-                </div>
-                <div className="flex-grow-1">
-                  <strong>{cellProps.categoryName.toUpperCase()}</strong>
-                </div>
-              </div>
-            </>
-          );
-        },
+        Header: "Recharge Value",
         disableFilters: true,
         filterable: true,
+        accessor: "value",
       },
       {
-        Header: "Category Description",
+        Header: "Recharge Cashback",
         disableFilters: true,
         filterable: true,
-        accessor: "categoryDescription",
-      },
-      {
-        Header: "Sub Category",
-        disableFilters: true,
-        filterable: true,
-        accessor: (cellProps: any, index: any) => {
-          return (
-            <div className="d-flex align-items-center">
-              {cellProps.subCategory.length === 0 ? (
-                <>
-                  <div
-                    className="badge text-success bg-success-subtle cursor-pointer"
-                    onClick={() => router.push("/sub-category")}
-                  >
-                    <i className="bi bi-plus"> </i>Add
-                  </div>
-                </>
-              ) : (
-                cellProps.subCategory[0].subCategoryName
-              )}
-            </div>
-          );
-        },
+        accessor: "cashback",
       },
 
       {
@@ -114,41 +81,9 @@ const Categorytable = () => {
         disableFilters: true,
         filterable: true,
       },
-      {
-        Header: "Vendor",
-        accessor: (cellProps: any) => {
-          return <div className="d-flex align-items-center">Not Available</div>;
-        },
-        disableFilters: true,
-        filterable: true,
-      },
-      {
-        Header: "Status",
-        disableFilters: true,
-        filterable: true,
-        accessor: (cellProps: any) => {
-          switch (cellProps.status) {
-            case true:
-              return (
-                <span className="badge text-success bg-success-subtle">
-                  {"Active"}
-                </span>
-              );
-            case false:
-              return (
-                <span className="badge text-danger  bg-danger-subtle">
-                  {"In-Active"}
-                </span>
-              );
-          }
-        },
-      },
     ],
     []
   );
-  useEffect(() => {
-    dispatch(GetAllCategory());
-  }, []);
 
   return (
     <Col xl={12}>
@@ -184,7 +119,7 @@ const Categorytable = () => {
         {/* <Card.Body> */}
         <TableContainer
           columns={columns || []}
-          data={categorydata || []}
+          data={offerData || []}
           isGlobalFilter={false}
           iscustomPageSize={false}
           isBordered={false}
@@ -194,17 +129,8 @@ const Categorytable = () => {
         />
         {/* </Card.Body> */}
       </Card>
-      <Custom_Modal
-        show={showSubCategory}
-        title={"Add Sub Category"}
-        onHide={() => setShowSubCategory(false)}
-        footer={
-          <Button onClick={() => setShowSubCategory(false)}>Close</Button>
-        }
-        children={<SubCatForm />}
-      />
     </Col>
   );
 };
 
-export default Categorytable;
+export default Rechargetable;

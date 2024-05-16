@@ -9,154 +9,102 @@ import moment from "moment";
 import { GetAllOrders, OrderByStatus } from "Components/slices/order/thunk";
 import Custom_Modal from "@common/Modal";
 import { is_selected_success } from "Components/slices/order/reducer";
+import { GetAllProduct } from "Components/slices/product/thunk";
 
 const DeliveryDetails = () => {
   const dispatch: any = useDispatch();
-  const { order } = useSelector((state: any) => ({
+  const { order, productdata } = useSelector((state: any) => ({
     order: state.order.fetchedbystatus,
+    productdata: state.ProductSlice.productdata,
   }));
 
   const [showStatus, setShowStatus] = useState(false);
 
+  var rows: any = [];
+
+  // for (let index = 0; index < order.length; index++) {
+  //   const parentelement = order[index];
+
+  //   for (let index = 0; index < parentelement.product.length; index++) {
+  //     const element = parentelement.product[index];
+
+  //     console.log(element);
+  //     productdata.response
+  //       .filter((item: any) => item._id === element.id)
+  //       .map((itex: any) => {
+  //         rows.push({
+  //           ...itex,
+  //           quantity: element.selQty,
+  //         });
+  //       });
+  //   }
+  // }
+
+  // Set to store unique product names
+  const uniqueProductNames = new Set();
+
+  // Map to store unique product names and their quantities
+  const productQuantities: any = {};
+
+  for (let parentIndex = 0; parentIndex < order.length; parentIndex++) {
+    const parentElement = order[parentIndex];
+
+    for (
+      let productIndex = 0;
+      productIndex < parentElement.product.length;
+      productIndex++
+    ) {
+      const element = parentElement.product[productIndex];
+      const { name, selQty } = element;
+
+      // Add product name to the set if it doesn't exist
+      if (!uniqueProductNames.has(name)) {
+        uniqueProductNames.add(name);
+      }
+
+      // Add quantity to the corresponding product name in the map
+      if (productQuantities.hasOwnProperty(name)) {
+        productQuantities[name] += selQty;
+      } else {
+        productQuantities[name] = selQty;
+      }
+    }
+  }
+
+  // Convert the Set to an array and add quantities from the map
+  const uniqueProductsWithQuantities = Array.from(uniqueProductNames).map(
+    (name: any) => ({
+      name: name,
+      quantity: productQuantities[name],
+    })
+  );
+
+  console.log(uniqueProductsWithQuantities);
+
   const columns = useMemo(
     () => [
       {
-        Header: "Order No.",
-        accessor: (cellProps: any) => {
-          return (
-            <>
-              <div className="d-flex align-items-center">
-                <div className="flex-grow-1">
-                  <Link
-                    href="#"
-                    onClick={() => {
-                      setShowStatus(true);
-                      dispatch(is_selected_success(cellProps));
-                    }}
-                  >
-                    <strong>#{cellProps.order_no}</strong>
-                  </Link>
-                </div>
-              </div>
-            </>
-          );
-        },
+        Header: "Product Name",
         disableFilters: true,
         filterable: true,
+        accessor: "name",
       },
+
       {
-        Header: "Place For",
+        Header: "Quantity",
         disableFilters: true,
         filterable: true,
-        accessor: "orderPlace",
-      },
-      {
-        Header: "Customer Name",
-        disableFilters: true,
-        filterable: true,
-        accessor: (cellProps: any) => {
-          return (
-            <>
-              <div className="d-flex align-items-center">
-                <div className="flex-grow-1">
-                  <strong>{cellProps.user.name}</strong>
-                </div>
-              </div>
-            </>
-          );
-        },
-      },
-      {
-        Header: "Order Date",
-        disableFilters: true,
-        filterable: true,
-        accessor: (cellProps: any) => {
-          return (
-            <>
-              <div className="d-flex align-items-center">
-                <div className="flex-grow-1">
-                  <strong>
-                    {moment(cellProps.createdAt).format("Do MMM YY")}
-                  </strong>
-                </div>
-              </div>
-            </>
-          );
-        },
-      },
-      {
-        Header: "Vendor",
-        accessor: (cellProps: any) => {
-          return <div className="d-flex align-items-center">Not Available</div>;
-        },
-        disableFilters: true,
-        filterable: true,
-      },
-      {
-        Header: "Status",
-        disableFilters: true,
-        filterable: true,
-        accessor: (cellProps: any) => {
-          switch (cellProps.status) {
-            case "PROCCESSING":
-              return (
-                <span className="badge text-warning bg-warning-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "FAILED":
-              return (
-                <span className="badge text-danger  bg-danger-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "DECLINED":
-              return (
-                <span className="badge text-danger  bg-danger-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "ONTHEEWAY":
-              return (
-                <span className="badge text-success  bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "ORDERED":
-              return (
-                <span className="badge text-success  bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "DELIVERED":
-              return (
-                <span className="badge text-success  bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "ASSIGNED":
-              return (
-                <span className="badge text-warning bg-warning-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "NEXTDAYDELIVERY":
-              return (
-                <span className="badge text-warning bg-warning-subtle">
-                  {cellProps.status}
-                </span>
-              );
-          }
-        },
+        accessor: "quantity",
       },
     ],
     []
   );
+
   useEffect(() => {
+    dispatch(GetAllProduct());
     dispatch(OrderByStatus("NEXTDAYDELIVERY"));
   }, []);
-
-  console.log(order);
+  console.log(productdata.response);
   return (
     <Col xl={12}>
       <Card>
@@ -189,7 +137,7 @@ const DeliveryDetails = () => {
 
         <TableContainer
           columns={columns || []}
-          data={order || []}
+          data={uniqueProductsWithQuantities || []}
           isGlobalFilter={false}
           iscustomPageSize={false}
           isBordered={false}

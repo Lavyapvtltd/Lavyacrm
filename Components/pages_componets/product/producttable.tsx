@@ -1,22 +1,70 @@
 import Link from "next/link";
+import { MdEditNote } from "react-icons/md";
 import Image from "next/image";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Card, Col, Dropdown } from "react-bootstrap";
 import { recentOrders } from "@common/data";
 import TableContainer from "@common/TableContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { imagebaseURL } from "Components/helpers/url_helper";
 import moment from "moment";
-import { GetAllProduct } from "Components/slices/product/thunk";
+import {
+  GetAllProduct,
+  editProductStatus,
+} from "Components/slices/product/thunk";
+import { useRouter } from "next/router";
+import { is_selected_product } from "Components/slices/product/reducer";
 
 const ProductTable = () => {
+  const router = useRouter();
   const dispatch: any = useDispatch();
+  const [status, setStatus] = useState<any>(null);
   const { productdata } = useSelector((state: any) => ({
     productdata: state.ProductSlice.productdata,
   }));
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Actions",
+        accessor: (cellProps: any) => {
+          return (
+            <>
+              <div className="d-flex align-items-center">
+                <div className="flex-shrink-0 me-2 d-flex align-items-center">
+                  <Link
+                    href=""
+                    onClick={() => {
+                      router.push(`/product/edit-product/${cellProps._id}`);
+                      dispatch(is_selected_product(cellProps));
+                    }}
+                  >
+                    <MdEditNote size={24} />
+                  </Link>
+
+                  <div className="form-check form-switch ml-5">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      checked={cellProps.status}
+                      onClick={(e) => {
+                        console.log(!cellProps.status);
+                        setStatus(!cellProps.status);
+                        dispatch(
+                          editProductStatus(cellProps._id, !cellProps.status)
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        },
+        disableFilters: true,
+        filterable: true,
+      },
       {
         Header: "Name",
         accessor: (cellProps: any) => {
@@ -127,7 +175,6 @@ const ProductTable = () => {
   useEffect(() => {
     dispatch(GetAllProduct());
   }, []);
-  console.log(productdata);
   return (
     <Col xl={12}>
       <Card>

@@ -1,23 +1,50 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Dropdown } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Row } from "react-bootstrap";
 import TableContainer from "@common/TableContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { imagebaseURL } from "Components/helpers/url_helper";
 import moment from "moment";
-import { GetAllOrders } from "Components/slices/order/thunk";
+import {
+  GetAllOrders,
+  fetchRequestforRecharge,
+} from "Components/slices/order/thunk";
 import Custom_Modal from "@common/Modal";
 import UpdateStatus from "./updateStatusForm";
 import { is_selected_success } from "Components/slices/order/reducer";
+import { GetAllPartner } from "Components/slices/partner/thunk";
 
 const Order = () => {
+  const [status, setStatus] = useState("ORDERED");
   const dispatch: any = useDispatch();
-  const { order } = useSelector((state: any) => ({
+  const { order, partnerData, request } = useSelector((state: any) => ({
     order: state.order.orderData,
+    request: state.order.request,
+    partnerData: state.partner.partnerData,
   }));
 
   const [showStatus, setShowStatus] = useState(false);
+
+  var rows: any = [];
+
+  for (let index = 0; index < order?.response?.length; index++) {
+    const element = order.response[index];
+    var name = "";
+    var recharge_request = 0;
+    partnerData
+      .filter((item: any) => item._id === element?.partner?._id)
+      .map((partner: any) => (name = partner.name));
+
+    request
+      .filter((item: any) => item.user?._id === element?.user?._id)
+      .map((item: any) => (recharge_request = item.amount));
+    rows.push({
+      ...element,
+      partnerName: name,
+      recharge_request: recharge_request,
+    });
+  }
 
   const columns = useMemo(
     () => [
@@ -46,10 +73,10 @@ const Order = () => {
         filterable: true,
       },
       {
-        Header: "Place For",
+        Header: "Partner",
         disableFilters: true,
         filterable: true,
-        accessor: "orderPlace",
+        accessor: "partnerName",
       },
       {
         Header: "Customer Name",
@@ -86,9 +113,13 @@ const Order = () => {
         },
       },
       {
-        Header: "Vendor",
+        Header: "Wallet Balance",
         accessor: (cellProps: any) => {
-          return <div className="d-flex align-items-center">Not Available</div>;
+          return (
+            <div className="d-flex align-items-center">
+              {cellProps.user?.walletBalance}
+            </div>
+          );
         },
         disableFilters: true,
         filterable: true,
@@ -141,6 +172,18 @@ const Order = () => {
                   {cellProps.status}
                 </span>
               );
+            case "NEXTDAYDELIVERY":
+              return (
+                <span className="badge text-warning bg-warning-subtle">
+                  {cellProps.status}
+                </span>
+              );
+            case "SUBSCRIBED":
+              return (
+                <span className="badge text-success bg-success-subtle">
+                  {cellProps.status}
+                </span>
+              );
           }
         },
       },
@@ -149,11 +192,79 @@ const Order = () => {
   );
   useEffect(() => {
     dispatch(GetAllOrders());
+    dispatch(GetAllPartner());
+    dispatch(fetchRequestforRecharge());
   }, []);
 
   return (
     <Col xl={12}>
       <Card>
+        <Col>
+          <Row className="px-2 py-2">
+            <Col md={1}>
+              <span
+                className="btn badge text-warning bg-warning-subtle"
+                onClick={() => setStatus("ASSIGNED")}
+              >
+                <>ASSIGNED</>
+              </span>
+            </Col>
+            <Col md={1}>
+              <span
+                className="badge text-danger  bg-danger-subtle"
+                onClick={() => setStatus("PENDING")}
+              >
+                <>PENDING</>
+              </span>
+            </Col>
+            <Col md={1}>
+              <span
+                className="badge text-success  bg-success-subtle"
+                onClick={() => setStatus("ORDERED")}
+              >
+                <>ORDERED</>
+              </span>
+            </Col>
+            <Col md={1}>
+              <span
+                className="badge text-danger  bg-danger-subtle"
+                onClick={() => setStatus("DECLINED")}
+              >
+                <>DECLINED</>
+              </span>
+            </Col>
+            <Col md={1}>
+              <span
+                className="badge text-success  bg-success-subtle"
+                onClick={() => setStatus("DELIVERED")}
+              >
+                <>DELIVERED</>
+              </span>
+            </Col>
+            <Col md={1}>
+              <span
+                className="badge text-danger  bg-danger-subtle"
+                onClick={() => setStatus("CANCELLEDBYPARTNER")}
+              >
+                <>CANCELLEDBYPARTNER</>
+              </span>
+            </Col>
+            <Col md={1}>
+              <span
+                className="badge text-warning  bg-warning-subtle"
+                onClick={() => setStatus("NEXTDAYDELIVERY")}
+              >
+                <>NEXTDAYDELIVERY</>
+              </span>
+            </Col>
+            {/* <Col>
+              <span>
+                <h6>C</h6>
+              </span>
+            </Col> */}
+            {/* <Col></Col> */}
+          </Row>
+        </Col>
         <Card.Header className="align-items-center d-flex mb-n2">
           <h4 className="card-title mb-0 flex-grow-1">Recent Orders</h4>
           <div className="flex-shrink-0">
@@ -180,14 +291,17 @@ const Order = () => {
             </Dropdown>
           </div>
         </Card.Header>
-        
+
         <TableContainer
           columns={columns || []}
-          data={order.response || []}
+          data={rows || []}
+          // data={
+          //   order.response.filter((item: any) => item.status === status) || []
+          // }
           isGlobalFilter={false}
           iscustomPageSize={false}
           isBordered={false}
-          customPageSize={6}
+          customPageSize={10}
           tableClass="table-centered align-middle table-nowrap mb-0"
           theadClass="table-light"
         />

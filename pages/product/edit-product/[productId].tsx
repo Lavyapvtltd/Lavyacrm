@@ -4,7 +4,7 @@ import { FormikProvider, useFormik, validateYupSchema } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Form, FormFloating, Row } from "react-bootstrap";
-import { PostProduct } from "Components/slices/product/thunk";
+import { PostProduct, editProduct } from "Components/slices/product/thunk";
 import {
   GetAllCategory,
   GetAllSubCategoryById,
@@ -22,79 +22,52 @@ import Select_Comp from "@common/Select_comp";
 const units = ["kg", "gm", "ltr", "ml"];
 const subscription_types = ["Daily", "Weekly", "One-time", "Alternatively"];
 
-const ProductForm = () => {
+const ProductForm = ({ productId }: any) => {
   const dispatch: any = useDispatch();
   const editorRef = useRef<any>();
   const [editor, setEditor] = useState(false);
   const { CKEditor, ClassicEditor }: any = editorRef.current || {};
-  const mapContainerStyle: React.CSSProperties = {
-    width: "100%",
-    height: "500px",
-  };
-
-  const apiKey: string = "AIzaSyA76OKDCbizM99zuhLvExdBx666iLNEAm0"; // Replace with your API key
-  const defaultCenter: google.maps.LatLngLiteral = {
-    lat: 28.6031121,
-    lng: 77.3668853,
-  }; // Default center for India
-  const [center, setCenter] =
-    useState<google.maps.LatLngLiteral>(defaultCenter);
-  const [localityBoundary, setLocalityBoundary] = useState<
-    google.maps.LatLngLiteral[]
-  >([]);
-  const [countryBoundary, setCountryBoundary] = useState<
-    google.maps.LatLngLiteral[]
-  >([]);
-  const [selectedLocation, setSelectedLocation] = useState<string>("");
-  const [markerPosition, setMarkerPosition] =
-    useState<google.maps.LatLngLiteral | null>(null);
-  const [circleRadius, setCircleRadius] = useState<number>(5000); // 20 km in meters
-  const [inValue, setInpValue] = useState<string>("");
-  const [placeName, setPlaceName] = useState<any[]>([]);
-  const [filteredData, setFilteredData] = useState<any[]>([]);
   const [locationArray, setLocationsArray] = useState<any>([]);
-  const [selectedLocationArray, setSelectedLocationArray] = useState<any>([]);
-
-  const [marker, setMarker] = useState<string>("");
   const [personName, setPersonName] = React.useState<string[]>([]);
-  const [locations, setLocations] = React.useState<string[]>([]);
-  const [active, setActive] = useState(false);
-  const { category, subcat, locationData } = useSelector((state: any) => ({
-    category: state.CategorySlice.categorydata,
-    subcat: state.CategorySlice.subcat,
-    locationData: state.location.locationData,
-  }));
-  console.log("locationArray:", locationArray);
+  const { category, subcat, locationData, selectedProduct } = useSelector(
+    (state: any) => ({
+      category: state.CategorySlice.categorydata,
+      subcat: state.CategorySlice.subcat,
+      locationData: state.location.locationData,
+      selectedProduct: state.ProductSlice.selectedProduct,
+    })
+  );
+
   const formik: any = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
-
     initialValues: {
       images: [],
-      name: "",
-      description: "",
+      name: selectedProduct.name,
+      description: selectedProduct.description,
       status: true,
-      categoryId: "",
-      subCategoryId: "",
-      regularPrice: "",
-      price: "",
-      unit: "",
-      unit_value: "",
-      location: [],
-      subscription_type: [],
-      subscription_active: false,
-      product_type: "",
-      membership_offer: "",
-      iconImage: "",
-      shortdescription: "",
+      categoryId: selectedProduct.categoryId,
+      subCategoryId: selectedProduct.subCategoryId,
+      regularPrice: selectedProduct.regularPrice,
+      price: selectedProduct.price,
+      unit: selectedProduct.unit,
+      unit_value: selectedProduct.unit_value,
+      location: selectedProduct.location,
+      subscription_type: selectedProduct.subsciption_type,
+      subscription_active: selectedProduct.subscription_active,
+      product_type: selectedProduct.productType,
+      membership_offer: selectedProduct.membership_offer,
+      iconImage: selectedProduct.icon,
+      shortDescription: selectedProduct.shortDescription,
     },
+
     validationSchema: Yup.object({
       name: Yup.string().required("Please enter a  category name."),
       description: Yup.string().required("Please enter an description."),
-      shortdescription: Yup.string().required(
+      categoryId: Yup.string().required("Required"),
+      shortDescription: Yup.string().required(
         "Please enter an short description."
       ),
-      categoryId: Yup.string().required("Required"),
       subCategoryId: Yup.string().required("Required"),
       regularPrice: Yup.number().required("Required"),
       price: Yup.number().required("Required"),
@@ -105,12 +78,11 @@ const ProductForm = () => {
       iconImage: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      dispatch(PostProduct(values));
+      dispatch(editProduct(productId, values));
       // formik.resetForm();
     },
   });
-
-  console.log(formik.values);
+  console.log("Mahepp", formik.values);
   useEffect(() => {
     dispatch(GetAllCategory());
     editorRef.current = {
@@ -161,6 +133,7 @@ const ProductForm = () => {
     ]);
   };
 
+  console.log(formik.values);
   return (
     <>
       <div className="container-fluid">
@@ -296,6 +269,16 @@ const ProductForm = () => {
                           }
                           required
                         >
+                          {category
+                            .filter(
+                              (ite: any) =>
+                                ite._id === selectedProduct.categoryId
+                            )
+                            .map((item: any) => (
+                              <option value={item._id} selected>
+                                {item.categoryName}
+                              </option>
+                            ))}
                           <option value="">Select this menu</option>
                           {category.map((item: any) => {
                             return (
@@ -344,6 +327,16 @@ const ProductForm = () => {
                           }
                           required
                         >
+                          {subcat
+                            .filter(
+                              (ite: any) =>
+                                ite._id === selectedProduct.subCategoryId
+                            )
+                            .map((item: any) => (
+                              <option value={item._id} selected>
+                                {item.subCategoryName}
+                              </option>
+                            ))}
                           <option value="">Select this menu</option>
                           {subcat.map((item: any) => {
                             return (
@@ -421,6 +414,13 @@ const ProductForm = () => {
                           }
                           required
                         >
+                          {units
+                            .filter(
+                              (item: any) => item === selectedProduct.unit
+                            )
+                            .map((item: any) => {
+                              return <option value={item}>{item}</option>;
+                            })}
                           <option value="">Select Unit Here</option>
                           {units.map((item: any) => {
                             return <option value={item}>{item}</option>;
@@ -555,6 +555,17 @@ const ProductForm = () => {
                             onChange={handleChange}
                             input={<OutlinedInput label="Subcription Type" />}
                           >
+                            {selectedProduct.subscription_type.map(
+                              (name: any) => (
+                                <MenuItem
+                                  key={name}
+                                  value={name}
+                                  // style={getStyles(name, personName, theme)}
+                                >
+                                  Current: {name}
+                                </MenuItem>
+                              )
+                            )}
                             {subscription_types.map((name: any) => (
                               <MenuItem
                                 key={name}
@@ -632,26 +643,27 @@ const ProductForm = () => {
                   <Form.Label htmlFor="name" className="form-label">
                     Short Description
                   </Form.Label>
-                  {editor ? (
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={formik.values.shortdescription}
-                      onReady={(editor: any) => {
-                        // You can store the "editor" and use when it is needed.
-                      }}
-                      onChange={(event: any, editor: any) => {
-                        const data = editor.getData();
-
-                        formik.setFieldValue("shortdescription", data);
-                      }}
-                    />
-                  ) : (
-                    <p>ckeditor5</p>
-                  )}
-                  {formik.touched.shortdescription &&
-                  formik.errors.shortdescription ? (
+                  <Form.Control
+                    name="shortDescription"
+                    id="shortDescription"
+                    className="form-control"
+                    placeholder="Enter Short Description"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.shortDescription}
+                    isInvalid={
+                      formik.touched.shortDescription &&
+                      formik.errors.shortDescription
+                        ? true
+                        : false
+                    }
+                    required
+                  />
+                  {formik.touched.shortDescription &&
+                  formik.errors.shortDescription ? (
                     <Form.Control.Feedback type="invalid">
-                      {formik.errors.shortdescription}
+                      {formik.errors.shortDescription}
                     </Form.Control.Feedback>
                   ) : null}
                 </div>
@@ -694,6 +706,12 @@ const ProductForm = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps = (context: any) => {
+  const { productId } = context.query;
+
+  return { props: { productId } };
 };
 
 export default ProductForm;

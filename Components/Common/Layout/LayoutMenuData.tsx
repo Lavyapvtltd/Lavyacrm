@@ -8,7 +8,7 @@ const Navdata = () => {
   const [order, setOrder] = useState(false);
   const [delivery, setDelivery] = useState(false);
   const [location, setLocation] = useState(false);
-
+  const [recharge, setRecharge] = useState(false);
   const [isPages, setIsPages] = useState(false);
   const [isMultiLevel, setIsMultiLevel] = useState(false);
 
@@ -95,6 +95,9 @@ const Navdata = () => {
       setIsPages(false);
     }
     if (isCurrentState !== "delivery") {
+      setIsPages(false);
+    }
+    if (isCurrentState !== "recharge") {
       setIsPages(false);
     }
     if (isCurrentState !== "MuliLevel") {
@@ -231,6 +234,94 @@ const Navdata = () => {
           id: "order",
           label: "All Orders",
           link: "/order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "new-order",
+          label: "New Orders",
+          link: "/order/new-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "assigned-order",
+          label: "Asssigned Orders",
+          link: "/order/assigned-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "pending-order",
+          label: "All Orders",
+          link: "/order/pending-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "subscribed-order",
+          label: "Subscribed Orders",
+          link: "/order/subscribed-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "delivered-order",
+          label: "Delivered Orders",
+          link: "/order/delivered-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "cancelled-by-user-order",
+          label: "User cancelled Orders",
+          link: "/order/user-cancelled-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "cancelled-by-delivery-partner",
+          label: "Partner cancelled Orders",
+          link: "/order/cancelled-by-delivery-partner-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "cancelled-by-admin",
+          label: "Admin cancelled Orders",
+          link: "/order/cancelled-by-admin-order",
           click: function (e: any) {
             e.preventDefault();
             setIsSignUp(!isSignUp);
@@ -542,6 +633,32 @@ const Navdata = () => {
           },
           parentId: "Membership",
           stateVariables: "Membership",
+        },
+      ],
+    },
+    {
+      id: "Recharge",
+      label: "Recharge Offer",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setRecharge(!recharge);
+        setIsCurrentState("recharge");
+        updateIconSidebar(e);
+      },
+      stateVariables: recharge,
+      subItems: [
+        {
+          id: "recharge",
+          label: "recharge",
+          link: "/recharge",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Recharge",
+          stateVariables: "Recharge",
         },
       ],
     },

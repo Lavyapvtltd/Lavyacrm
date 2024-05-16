@@ -4,6 +4,8 @@ import {
   baseURL,
   POST_NEW_PRODUCT,
   UPDATE_STOCK,
+  EDIT_PRODUCT,
+  EDIT_PRODUCT_STATUS,
 } from "Components/helpers/url_helper";
 import axios from "axios";
 import { api_is_error, api_is_loading, api_is_success } from "./reducer";
@@ -29,7 +31,7 @@ export const PostProduct = (values: any) => async (dispatch: any) => {
   try {
     const form = new FormData();
     form.append("name", values.name);
-    form.append("shortDescription", values.shortDescription);
+    form.append("shortDescription", values.shortdescription);
     values.images.map((item: any) => form.append("productImage", item));
     form.append("status", values.status);
     form.append("categoryId", values.categoryId);
@@ -46,6 +48,8 @@ export const PostProduct = (values: any) => async (dispatch: any) => {
     form.append("productType", values.product_type);
     form.append("membership_offer", values.membership_offer);
     form.append("subscription_type", values.subscription_type);
+
+    console.log("form:", form);
 
     const options = {
       method: "POST",
@@ -167,3 +171,79 @@ export const updateStock = (id: any, value: any) => async (dispatch: any) => {
     });
   }
 };
+
+export const editProduct = (id: any, values: any) => async (dispatch: any) => {
+  console.log("values:", values.images);
+  const form = new FormData();
+  form.append("name", values.name);
+  form.append("shortDescription", values.shortDescription);
+  values.images.map((item: any) => form.append("productImage", item));
+  form.append("status", values.status);
+  form.append("categoryId", values.categoryId);
+  form.append("subCategoryId", values.subCategoryId);
+  form.append("regularPrice", values.regularPrice);
+  form.append("price", values.price);
+  form.append("qty", values.qty);
+  form.append("sku", values.sku);
+  form.append("description", values.description);
+  form.append("unit", values.unit);
+  form.append("unit_value", values.unit_value);
+  form.append("location", JSON.stringify(values.location));
+  form.append("subscription_active", values.subscription_active);
+  form.append("productType", values.product_type);
+  form.append("membership_offer", values.membership_offer);
+  form.append("subscription_type", values.subscription_type);
+
+  const options = {
+    method: "PATCH",
+    url: `${baseURL}${EDIT_PRODUCT}/${id}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: form,
+  };
+  const fetchapi = await axios.request(options);
+  const resp: any = await fetchapi;
+  const { response, baseResponse } = resp;
+  console.log(resp);
+  if (baseResponse.status === 1) {
+    dispatch(SingleProductImage(values));
+    Swal.fire({
+      title: "Good job!",
+      text: baseResponse.message,
+      icon: "success",
+    }).then(() => {
+      dispatch(GetAllProduct());
+    });
+  } else {
+    Swal.fire({
+      title: "Error !!!",
+      text: baseResponse.message,
+      icon: "error",
+    });
+  }
+};
+
+export const editProductStatus =
+  (id: any, values: any) => async (dispatch: any) => {
+    const options = {
+      method: "PATCH",
+      url: `${baseURL}${EDIT_PRODUCT_STATUS}/${id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { status: values },
+    };
+    const fetchapi = await axios.request(options);
+    const resp: any = await fetchapi;
+    const { response, baseResponse } = resp;
+    if (baseResponse.status === 1) {
+      dispatch(GetAllProduct());
+    } else {
+      Swal.fire({
+        title: "Error !!!",
+        text: baseResponse.message,
+        icon: "error",
+      });
+    }
+  };

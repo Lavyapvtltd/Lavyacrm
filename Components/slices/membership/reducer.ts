@@ -5,10 +5,12 @@ const initialState = {
   error: <any>"",
   membershipdata: <any>[],
   subcat: <any>[],
+  data: <any>[],
+  selected: <any>{},
 };
 
 const membershipSlices = createSlice({
-  name: "category",
+  name: "membership",
   initialState,
   reducers: {
     api_is_loading(state, action) {
@@ -26,8 +28,17 @@ const membershipSlices = createSlice({
       state.error = "";
       state.membershipdata = action.payload.response;
     },
+    api_all_is_success(state, action) {
+      state.isloading = false;
+      state.error = "";
+      state.data = action.payload.response;
+    },
+    selected_is_success(state, action) {
+      state.isloading = false;
+      state.error = "";
+      state.selected = action.payload;
+    },
     api_is_sub_success(state, action) {
-      console.log("action.payload:", action.payload);
       state.isloading = false;
       state.error = "";
       state.subcat = action.payload.response;
@@ -40,6 +51,8 @@ export const {
   api_is_error,
   api_is_success,
   api_is_sub_success,
+  api_all_is_success,
+  selected_is_success,
 } = membershipSlices.actions;
 
 export default membershipSlices.reducer;

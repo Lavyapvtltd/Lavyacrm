@@ -4,26 +4,23 @@ import { FormikProvider, useFormik, validateYupSchema } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Form, FormFloating, Row } from "react-bootstrap";
-import { CreateMembership } from "Components/slices/membership/thunk";
+import {
+  CreateMembership,
+  editMembership,
+} from "Components/slices/membership/thunk";
+import { useRouter } from "next/router";
 
-const Membershipform = () => {
+const EditMembershipform = ({ membershipId }: any) => {
   const dispatch: any = useDispatch();
   const editorRef = useRef<any>();
+  const router = useRouter();
   const [editor, setEditor] = useState(false);
+  const { selected } = useSelector((state: any) => ({
+    selected: state.membership.selected,
+  }));
+
   const { CKEditor, ClassicEditor }: any = editorRef.current || {};
-  const [membership, setMembership] = useState([
-    {
-      title: "",
-      details: [
-        {
-          value: "",
-          discount: "",
-          status: "",
-          validity: "",
-        },
-      ],
-    },
-  ]);
+  let [membership, setMembership] = useState(selected.membershipDetails);
   const { category, subcat, locationData } = useSelector((state: any) => ({
     category: state.CategorySlice.categorydata,
     subcat: state.CategorySlice.subcat,
@@ -32,16 +29,21 @@ const Membershipform = () => {
 
   const handleChange = (e: any, index: any, detailIndex: any) => {
     const { name, value } = e.target;
-    if (name === "title") {
-      setMembership((prevMembership) => {
-        const updatedMembership = [...prevMembership];
-        updatedMembership[index].title = value;
+    if (name === "membershipTitle") {
+      setMembership((prevMembership: any) => {
+        let updatedMembership = prevMembership.map((item: any, i: any) => {
+          if (i === index) {
+            return { ...item, membershipTitle: value };
+          }
+          return item;
+        });
+        console.log(updatedMembership);
         return updatedMembership;
       });
     } else {
-      const updatedMembership = membership.map((item, i) => {
+      const updatedMembership = membership.map((item: any, i: any) => {
         if (i === index) {
-          const updatedDetails = item.details.map((detail, j) => {
+          const updatedDetails = item.details.map((detail: any, j: any) => {
             if (j === detailIndex) {
               return { ...detail, [name]: value };
             }
@@ -58,10 +60,10 @@ const Membershipform = () => {
   const addReceipt = (index: any) => {
     const updatedMembership = [...membership];
     updatedMembership[index].details.push({
-      value: "",
-      discount: "",
-      status: "",
-      validity: "",
+      membershipValue: "",
+      membershipDiscount: "",
+      membershipStatus: "",
+      membershipValidity: "",
     });
     setMembership(updatedMembership);
   };
@@ -73,25 +75,28 @@ const Membershipform = () => {
   };
 
   const handleSubmitMembership = () => {
-    const isDetailsFull = membership.every((item) => item.details.length === 4);
+    const isDetailsFull = membership.every(
+      (item: any) => item.details.length === 4
+    );
 
     if (isDetailsFull) {
-      const arrayToSubmit = membership.map((item) => ({
-        membershipTitle: item.title,
-        details: item.details.map((detail) => ({
-          membershipValue: detail.value,
-          membershipDiscount: detail.discount,
-          membershipStatus: JSON.parse(detail.status),
-          membershipValidity: detail.validity,
+      const arrayToSubmit = membership.map((item: any) => ({
+        membershipTitle: item.membershipTitle,
+        details: item.details.map((detail: any) => ({
+          membershipValue: detail.membershipValue,
+          membershipDiscount: detail.membershipDiscount,
+          membershipStatus: JSON.parse(detail.membershipStatus),
+          membershipValidity: detail.membershipValidity,
         })),
       }));
-      dispatch(CreateMembership(arrayToSubmit));
+
+      dispatch(editMembership(arrayToSubmit, membershipId, router));
     } else {
       console.log("Details length must reach 4 to submit");
     }
   };
 
-  console.log("membership", membership);
+  console.log("membership", selected.membershipDetails);
   return (
     <>
       <div className="container-fluid">
@@ -113,8 +118,8 @@ const Membershipform = () => {
                     Title
                   </Form.Label>
                   <Form.Control
-                    name="title"
-                    id="title"
+                    name="membershipTitle"
+                    id="membershipTitle"
                     className="form-control"
                     placeholder="Enter Membership title..."
                     type="text"
@@ -134,15 +139,15 @@ const Membershipform = () => {
                               Value
                             </Form.Label>
                             <Form.Control
-                              name="value"
-                              id="value"
+                              name="membershipValue"
+                              id="membershipValue"
                               className="form-control"
                               placeholder="Enter Coupon Value..."
                               type="text"
                               onChange={(e) =>
                                 handleChange(e, index, detailIndex)
                               }
-                              value={detail.value}
+                              value={detail.membershipValue}
                               required
                             />
                           </div>
@@ -153,15 +158,15 @@ const Membershipform = () => {
                               Discount
                             </Form.Label>
                             <Form.Control
-                              name="discount"
-                              id="discount"
+                              name="membershipDiscount"
+                              id="membershipDiscount"
                               className="form-control"
                               placeholder="Enter discount value..."
                               type="text"
                               onChange={(e) =>
                                 handleChange(e, index, detailIndex)
                               }
-                              value={detail.discount}
+                              value={detail.membershipDiscount}
                               required
                             />
                           </div>
@@ -172,15 +177,15 @@ const Membershipform = () => {
                               Validity
                             </Form.Label>
                             <Form.Control
-                              name="validity"
-                              id="validity"
+                              name="membershipValidity"
+                              id="membershipValidity"
                               className="form-control"
                               placeholder="Enter validity..."
                               type="text"
                               onChange={(e) =>
                                 handleChange(e, index, detailIndex)
                               }
-                              value={detail.validity}
+                              value={detail.membershipValidity}
                               required
                             />
                           </div>
@@ -191,7 +196,7 @@ const Membershipform = () => {
                               Status
                             </Form.Label>
                             <Form.Select
-                              name="status"
+                              name="membershipStatus"
                               onChange={(e) =>
                                 handleChange(e, index, detailIndex)
                               }
@@ -245,4 +250,10 @@ const Membershipform = () => {
   );
 };
 
-export default Membershipform;
+export const getServerSideProps = (context: any) => {
+  const { membershipId } = context.query;
+
+  return { props: { membershipId } };
+};
+
+export default EditMembershipform;

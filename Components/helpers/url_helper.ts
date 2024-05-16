@@ -13,8 +13,8 @@ export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 // export const baseURL = "http://192.168.1.20:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.20:9291/resources/";
 
-// export const baseURL = "http://192.168.29.116:9291/api/v1";
-// export const imagebaseURL = "http://192.168.29.116:9291/resources/";
+// export const baseURL = "http://192.168.1.7:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.7:9291/resources/";
 
 // export const baseURL = "http://172.20.10.5:9291/api/v1";
 // export const imagebaseURL = "http://172.20.10.5:9291/resources/";
@@ -81,6 +81,8 @@ export const GET_ALL_SUB_CATEGORY = "/category/get-all-sub-category";
 export const POST_NEW_PRODUCT = "/product/create-product";
 export const GET_ALL_PRODUCT = "/product/get-all-products";
 export const UPDATE_STOCK = "/stock/update-qty";
+export const EDIT_PRODUCT = "/product/update-product-details";
+export const EDIT_PRODUCT_STATUS = "/product/update-product-status";
 /* product */
 
 /* ORDER */
@@ -128,3 +130,17 @@ export const UPLOAD_BANNER = "/banner/upload-banner-images";
 export const CREATE_MEMBERSHIP = "/vip/membership/subscribe-new-membership";
 
 export const CREATE_NEW_MEMBERSHIP = "/vip/membership/create-new-membership";
+export const GET_ALL_MEMBERSHIP = "/vip/membership/get-membership";
+export const EDIT_MEMBERSHIP = "/vip/membership/edit-membership";
+
+export const EDIT_CATEGORY = "/category/edit-category-by-id";
+
+export const CREATE_NEW_OFFER = "/recharge/create-recharge-offer";
+export const GET_RECHARGE_OFFER = "/recharge/get-all-offer";
+export const EDIT_RECHARGE_OFFER = "/recharge/update-offer";
+
+export const CHECK_WALLET_REQUEST =
+  "/recharge-via-cash/fetch-request-for-recharge";
+
+export const DELETELOCATION = "/location/delete-location/";
+export const UPDATELOCATION = "/location/update-location/";

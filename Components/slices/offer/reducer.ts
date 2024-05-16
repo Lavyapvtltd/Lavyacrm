@@ -31,6 +31,11 @@ const offerSlices = createSlice({
       state.error = "";
       state.selectedoffer = action.payload;
     },
+    is_recharge_selected(state, action) {
+      state.isloading = false;
+      state.error = "";
+      state.selectedoffer = action.payload;
+    },
   },
 });
 
@@ -39,6 +44,7 @@ export const {
   api_is_error,
   api_is_success,
   is_selected_success,
+  is_recharge_selected,
 } = offerSlices.actions;
 
 export default offerSlices.reducer;

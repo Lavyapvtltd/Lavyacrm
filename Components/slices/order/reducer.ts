@@ -6,6 +6,7 @@ const initialState = {
   orderData: <any>[],
   selectedorder: <any>[],
   fetchedbystatus: <any>[],
+  request: <any>[],
 };
 
 const orderSlices = createSlice({
@@ -38,6 +39,11 @@ const orderSlices = createSlice({
       state.error = "";
       state.fetchedbystatus = action.payload;
     },
+    recharge_request(state, action) {
+      state.isloading = false;
+      state.error = "";
+      state.request = action.payload;
+    },
   },
 });
 
@@ -47,6 +53,7 @@ export const {
   api_is_success,
   is_selected_success,
   fetched_by_status,
+  recharge_request,
 } = orderSlices.actions;
 
 export default orderSlices.reducer;

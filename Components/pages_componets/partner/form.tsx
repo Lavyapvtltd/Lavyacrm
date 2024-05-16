@@ -290,7 +290,7 @@ const PartnerForm = () => {
       <Col>
         <Row style={{ margin: 5 }}>
           <Button type="submit" onClick={(e) => formik.handleSubmit(e)}>
-            Add Location
+            Add Partner
           </Button>
         </Row>
       </Col>

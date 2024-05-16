@@ -29,6 +29,7 @@ import partnerSlices from "./partner/reducer";
 import citySlices from "./city/reducer";
 import contentSlices from "./content/reducer";
 import offerSlices from "./offer/reducer";
+import membershipSlice from "./membership/reducer";
 
 const combinedReducer = combineReducers({
   Layout: LayoutReducer,
@@ -50,6 +51,7 @@ const combinedReducer = combineReducers({
   city: citySlices,
   content: contentSlices,
   offer: offerSlices,
+  membership: membershipSlice,
 });
 
 const reducer = (state: any, action: AnyAction) => {

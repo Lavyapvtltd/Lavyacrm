@@ -11,7 +11,11 @@ import moment from "moment";
 import Custom_Modal from "@common/Modal";
 import SubCatForm from "../Sub_Category/form";
 import { useRouter } from "next/router";
-import { GetAllLocation } from "Components/slices/location/thunk";
+import {
+  DeleteLocation,
+  GetAllLocation,
+} from "Components/slices/location/thunk";
+import { is_selected_success } from "Components/slices/location/reducer";
 const Locationtable = () => {
   const dispatch: any = useDispatch();
   const router = useRouter();
@@ -22,6 +26,36 @@ const Locationtable = () => {
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Actions",
+        accessor: (cellProps: any) => {
+          return (
+            <>
+              <div className="d-flex align-items-center">
+                <div className="flex-grow-1">
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => dispatch(DeleteLocation(cellProps._id))}
+                  >
+                    <i className="bi bi-trash" />
+                  </span>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      router.push(`/location/edit-location/${cellProps._id}`);
+                      dispatch(is_selected_success(cellProps));
+                    }}
+                  >
+                    <i className="bi bi-pencil" />
+                  </span>
+                </div>
+              </div>
+            </>
+          );
+        },
+        disableFilters: true,
+        filterable: true,
+      },
       {
         Header: "Location Name",
         accessor: (cellProps: any) => {

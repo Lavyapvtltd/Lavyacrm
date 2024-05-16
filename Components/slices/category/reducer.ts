@@ -5,6 +5,7 @@ const initialState = {
   error: <any>"",
   categorydata: <any>[],
   subcat: <any>[],
+  selected: <any>{},
 };
 
 const categorySlices = createSlice({
@@ -32,6 +33,9 @@ const categorySlices = createSlice({
       state.error = "";
       state.subcat = action.payload.response;
     },
+    is_category_selected(state, action) {
+      state.selected = action.payload;
+    },
   },
 });
 
@@ -40,6 +44,7 @@ export const {
   api_is_error,
   api_is_success,
   api_is_sub_success,
+  is_category_selected,
 } = categorySlices.actions;
 
 export default categorySlices.reducer;
