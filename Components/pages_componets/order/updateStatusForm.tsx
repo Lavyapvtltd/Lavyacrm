@@ -53,7 +53,24 @@ const UpdateStatus = () => {
     dispatch(GetAllPartner());
   }, []);
 
-  console.log("selectedorder:", selectedorder);
+  // const toPay = () => {
+  //   return selectedorder.product.reduce((prev: any, current: any) => {
+  //     current.price - (current.price * current.selQty) / 100;
+
+  //     return discountedPrice;
+  //   }, 0);
+  // };
+
+  const cartTotal = () => {
+    return selectedorder.product.reduce(function (prev: any, current: any) {
+      var price = "";
+
+      price = prev + current.price * current.selQty;
+
+      return price;
+    }, 0);
+  };
+
   return (
     <div className="container-fluid">
       <Col xl={12}>
@@ -231,7 +248,9 @@ const UpdateStatus = () => {
                       htmlFor="subCategoryDescription"
                       className="form-label"
                     >
-                      Payment Amount:
+                      {selectedorder.recharge_request == 0
+                        ? "Payment Amount"
+                        : "Recharge Payment Amount"}
                     </Form.Label>
                     <Form.Control
                       className="form-control"
@@ -239,12 +258,31 @@ const UpdateStatus = () => {
                       type="text"
                       value={
                         selectedorder.paymentOption === "payViaCash"
-                          ? selectedorder.recharge_request
+                          ? selectedorder.recharge_request == 0
+                            ? selectedorder.recharge_amount_via_cash
+                            : selectedorder.recharge_request
                           : selectedorder.amount
                       }
                       readOnly
                     />
                   </Col>
+                  {selectedorder.paymentOption === "payViaCash" && (
+                    <Col md={4}>
+                      <Form.Label
+                        htmlFor="paymentAmount"
+                        className="form-label"
+                      >
+                        {selectedorder.paymentOption !== 0 && "Payment Amount"}
+                      </Form.Label>
+                      <Form.Control
+                        className="form-control"
+                        placeholder="Enter Name"
+                        type="text"
+                        value={cartTotal()}
+                        readOnly
+                      />
+                    </Col>
+                  )}
                 </Row>
 
                 <h3 className="mt-5">Product Information</h3>

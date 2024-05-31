@@ -144,3 +144,6 @@ export const CHECK_WALLET_REQUEST =
 
 export const DELETELOCATION = "/location/delete-location/";
 export const UPDATELOCATION = "/location/update-location/";
+
+//Get User
+export const GETUSER = "/login/get-all-app-user";

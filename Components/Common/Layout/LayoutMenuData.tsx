@@ -4,6 +4,10 @@ const Navdata = () => {
   //state data
   const [isAuth, setIsAuth] = useState(false);
   const [products, setProducts] = useState(false);
+  const [accounting, setAccounting] = useState(false);
+  const [bottleBreak, setBottle] = useState(false);
+  const [vendor, setVendor] = useState(false);
+  const [user, setUser] = useState(false);
   const [categories, setCategories] = useState(false);
   const [order, setOrder] = useState(false);
   const [delivery, setDelivery] = useState(false);
@@ -60,6 +64,18 @@ const Navdata = () => {
     document.body.classList.remove("twocolumn-panel");
     if (isCurrentState !== "Auth") {
       setIsAuth(false);
+    }
+    if (isCurrentState !== "Accounting") {
+      setProducts(false);
+    }
+    if (isCurrentState !== "User") {
+      setProducts(false);
+    }
+    if (isCurrentState !== "Vendor") {
+      setProducts(false);
+    }
+    if (isCurrentState !== "BottleBreak") {
+      setProducts(false);
     }
     if (isCurrentState !== "Products") {
       setProducts(false);
@@ -151,6 +167,114 @@ const Navdata = () => {
     {
       label: "Pages",
       isHeader: true,
+    },
+    {
+      id: "User-Detail",
+      label: "User-Detail",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setUser(!user);
+        setIsCurrentState("User");
+        updateIconSidebar(e);
+      },
+      stateVariables: user,
+      subItems: [
+        {
+          id: "User-Detail",
+          label: "User-Detail",
+          link: "/user",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "User",
+          stateVariables: isSignIn,
+        },
+      ],
+    },
+    {
+      id: "vendor",
+      label: "Vendor",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setVendor(!vendor);
+        setIsCurrentState("Vendor");
+        updateIconSidebar(e);
+      },
+      stateVariables: vendor,
+      subItems: [
+        {
+          id: "vendor",
+          label: "Vendor",
+          link: "/vendor",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Vendor",
+          stateVariables: isSignIn,
+        },
+      ],
+    },
+    {
+      id: "bottle",
+      label: "Bottle Break",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setBottle(!bottleBreak);
+        setIsCurrentState("BottleBreak");
+        updateIconSidebar(e);
+      },
+      stateVariables: vendor,
+      subItems: [
+        {
+          id: "bottle",
+          label: "Bottle Break",
+          link: "/bottle-break",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Vendor",
+          stateVariables: isSignIn,
+        },
+      ],
+    },
+    {
+      id: "Accounting",
+      label: "Accounting",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setAccounting(!accounting);
+        setIsCurrentState("Accounting");
+        updateIconSidebar(e);
+      },
+      stateVariables: accounting,
+      subItems: [
+        {
+          id: "accounting",
+          label: "Accounting",
+          link: "/accounting",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+      ],
     },
     {
       id: "Products",
@@ -265,7 +389,7 @@ const Navdata = () => {
         },
         {
           id: "pending-order",
-          label: "All Orders",
+          label: "Pending",
           link: "/order/pending-order",
           click: function (e: any) {
             e.preventDefault();
@@ -299,7 +423,7 @@ const Navdata = () => {
         {
           id: "cancelled-by-user-order",
           label: "User cancelled Orders",
-          link: "/order/user-cancelled-order",
+          link: "/order/cancelled-by-user-order",
           click: function (e: any) {
             e.preventDefault();
             setIsSignUp(!isSignUp);
@@ -310,7 +434,7 @@ const Navdata = () => {
         {
           id: "cancelled-by-delivery-partner",
           label: "Partner cancelled Orders",
-          link: "/order/cancelled-by-delivery-partner-order",
+          link: "/order/cancelled-by-delivery-partner",
           click: function (e: any) {
             e.preventDefault();
             setIsSignUp(!isSignUp);
