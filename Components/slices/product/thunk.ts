@@ -177,7 +177,7 @@ export const editProduct = (id: any, values: any) => async (dispatch: any) => {
   const form = new FormData();
   form.append("name", values.name);
   form.append("shortDescription", values.shortDescription);
-  values.images.map((item: any) => form.append("productImage", item));
+  values.images.forEach((item: any) => form.append("productImage", item));
   form.append("status", values.status);
   form.append("categoryId", values.categoryId);
   form.append("subCategoryId", values.subCategoryId);
@@ -198,7 +198,7 @@ export const editProduct = (id: any, values: any) => async (dispatch: any) => {
     method: "PATCH",
     url: `${baseURL}${EDIT_PRODUCT}/${id}`,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     },
     data: form,
   };

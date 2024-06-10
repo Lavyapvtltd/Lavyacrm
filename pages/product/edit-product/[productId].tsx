@@ -555,7 +555,7 @@ const ProductForm = ({ productId }: any) => {
                             onChange={handleChange}
                             input={<OutlinedInput label="Subcription Type" />}
                           >
-                            {selectedProduct.subscription_type.map(
+                            {selectedProduct?.subscription_type?.map(
                               (name: any) => (
                                 <MenuItem
                                   key={name}
