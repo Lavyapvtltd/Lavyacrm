@@ -87,6 +87,9 @@ const ProductForm = () => {
       membership_offer: "",
       iconImage: "",
       shortdescription: "",
+      sgst:"",
+      cgst:"",
+      igst:""
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Please enter a  category name."),
@@ -103,6 +106,9 @@ const ProductForm = () => {
       location: Yup.array().required("Required"),
       subscription_type: Yup.array().required("Required"),
       iconImage: Yup.string().required("Required"),
+      sgst: Yup.string().required("Required"),
+      cgst: Yup.string().required("Required"),
+      igst: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
       dispatch(PostProduct(values));
@@ -684,7 +690,90 @@ const ProductForm = () => {
                   ) : null}
                 </div>
               </Col>
-
+              <Col>
+                <div>
+                  <Form.Label htmlFor="sgst" className="form-label">
+                    SGST
+                  </Form.Label>
+                  <Form.Control
+                    name="sgst"
+                    id="sgst"
+                    className="form-control"
+                    placeholder="Enter SGST"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.sgst}
+                    isInvalid={
+                      formik.touched.sgst && formik.errors.sgst
+                        ? true
+                        : false
+                    }
+                    required
+                  />
+                  {formik.touched.sgst && formik.errors.sgst ? (
+                    <Form.Control.Feedback type="invalid">
+                      {formik.errors.sgst}
+                    </Form.Control.Feedback>
+                  ) : null}
+                </div>
+              </Col>
+              <Col>
+                <div>
+                  <Form.Label htmlFor="cgst" className="form-label">
+                    CGST
+                  </Form.Label>
+                  <Form.Control
+                    name="cgst"
+                    id="cgst"
+                    className="form-control"
+                    placeholder="Enter CGST"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.cgst}
+                    isInvalid={
+                      formik.touched.cgst && formik.errors.cgst
+                        ? true
+                        : false
+                    }
+                    required
+                  />
+                  {formik.touched.cgst && formik.errors.cgst ? (
+                    <Form.Control.Feedback type="invalid">
+                      {formik.errors.cgst}
+                    </Form.Control.Feedback>
+                  ) : null}
+                </div>
+              </Col>
+              <Col>
+                <div>
+                  <Form.Label htmlFor="igst" className="form-label">
+                    IGST
+                  </Form.Label>
+                  <Form.Control
+                    name="igst"
+                    id="igst"
+                    className="form-control"
+                    placeholder="Enter IGST"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.igst}
+                    isInvalid={
+                      formik.touched.igst && formik.errors.igst
+                        ? true
+                        : false
+                    }
+                    required
+                  />
+                  {formik.touched.igst && formik.errors.igst ? (
+                    <Form.Control.Feedback type="invalid">
+                      {formik.errors.igst}
+                    </Form.Control.Feedback>
+                  ) : null}
+                </div>
+              </Col>
               <Button variant="secondary" type="submit">
                 Save
               </Button>

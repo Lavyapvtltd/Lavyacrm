@@ -48,6 +48,9 @@ export const PostProduct = (values: any) => async (dispatch: any) => {
     form.append("productType", values.product_type);
     form.append("membership_offer", values.membership_offer);
     form.append("subscription_type", values.subscription_type);
+    form.append("sgst",values.sgst);
+    form.append("cgst",values.cgst);
+    form.append("igst",values.igst);
 
     console.log("form:", form);
 
@@ -64,9 +67,10 @@ export const PostProduct = (values: any) => async (dispatch: any) => {
     const apifetch = await axios.request(options);
     dispatch(api_is_loading(true));
     const response: any = await apifetch;
+    console.log(response,"lll");
     dispatch(api_is_loading(false));
     if (response.status === 1) {
-      dispatch(SingleProductImage(values));
+      dispatch(SingleProductImage(values,response.response._id));
       /* Add SweetAlert Success */
       Swal.fire({
         title: "Good job!",
@@ -94,10 +98,10 @@ export const PostProduct = (values: any) => async (dispatch: any) => {
   }
 };
 
-export const SingleProductImage = (values: any) => async (dispatch: any) => {
+export const SingleProductImage = (values: any, productId:any) => async (dispatch: any) => {
   try {
     const form = new FormData();
-    form.append("name", values.name);
+    form.append("id", productId);
     form.append("status", values.status);
     form.append("icon", values.iconImage);
 
@@ -193,7 +197,9 @@ export const editProduct = (id: any, values: any) => async (dispatch: any) => {
   form.append("productType", values.product_type);
   form.append("membership_offer", values.membership_offer);
   form.append("subscription_type", values.subscription_type);
-
+  form.append("sgst",values.sgst);
+  form.append("cgst",values.cgst);
+  form.append("igst",values.igst);
   const options = {
     method: "PATCH",
     url: `${baseURL}${EDIT_PRODUCT}/${id}`,
@@ -204,10 +210,10 @@ export const editProduct = (id: any, values: any) => async (dispatch: any) => {
   };
   const fetchapi = await axios.request(options);
   const resp: any = await fetchapi;
-  const { response, baseResponse } = resp;
+  const { response, baseResponse }:any = resp;
   console.log(resp);
   if (baseResponse.status === 1) {
-    dispatch(SingleProductImage(values));
+    dispatch(SingleProductImage(values,response._id));
     Swal.fire({
       title: "Good job!",
       text: baseResponse.message,
