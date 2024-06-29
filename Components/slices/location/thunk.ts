@@ -79,7 +79,7 @@ export const updateLocation =
       const options = {
         url: `${baseURL}${UPDATELOCATION}${id}`,
         method: "PATCH",
-        data: { radius: values.radius },
+        data: { radius: values.radius ,locationName: values.locationName},
       };
       const fetchapi = await axios.request(options);
       const resp: any = await fetchapi;
