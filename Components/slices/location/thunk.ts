@@ -60,7 +60,7 @@ export const DeleteLocation = (id: any) => async (dispatch: any) => {
   try {
     const options = {
       url: `${baseURL}${DELETELOCATION}${id}`,
-      method: "PATCH",
+      method: "DELETE",
     };
     const fetchapi = await axios.request(options);
     const resp: any = await fetchapi;
@@ -78,7 +78,7 @@ export const updateLocation =
     try {
       const options = {
         url: `${baseURL}${UPDATELOCATION}${id}`,
-        method: "PUT",
+        method: "PATCH",
         data: { radius: values.radius },
       };
       const fetchapi = await axios.request(options);
