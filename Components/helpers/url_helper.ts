@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.0.178:9291/api/v1";
-// export const imagebaseURL = "http://192.168.0.178:9291/resources/";
+// export const baseURL = "http://192.168.1.13:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.13:9291/resources/";
 
 // export const baseURL = "http://192.168.29.91:9291/api/v1";
 // export const imagebaseURL = "http://192.168.29.91:9291/resources/";
@@ -150,3 +150,8 @@ export const UPDATELOCATION = "/location/update-location/";
 
 //Get User
 export const GETUSER = "/login/get-all-app-user";
+
+
+//Vendor
+export const CREATE_NEW_VENDOR = "/vendor/add-vendor";
+export const GET_ALL_VENDORS = "/vendor/get-all-vendors"

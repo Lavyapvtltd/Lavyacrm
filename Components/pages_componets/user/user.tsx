@@ -20,6 +20,7 @@ const User = () => {
       { Header: "Email", accessor: "user.email" },
       { Header: "Mobile", accessor: "user.mobile" },
       { Header: "Wallet Amount", accessor: "walletAmount" },
+      { Header: "Orders", accessor: "orders" },
       { Header: "Created Date", accessor: "createdDate" },
     ],
     []
@@ -52,6 +53,7 @@ const User = () => {
                     <td>{row.email}</td>
                     <td>{row.contact}</td>
                     <td>{row.walletBalance}</td>
+                    <td>{row.orders.length}</td>
                     <td>{moment(row.createdAt).format("Do MMM YY")}</td>
                   </tr>
                 ))

@@ -102,9 +102,8 @@ const DeliveryDetails = () => {
 
   useEffect(() => {
     dispatch(GetAllProduct());
-    dispatch(OrderByStatus("NEXTDAYDELIVERY"));
+    dispatch(OrderByStatus("ASSIGNED"));
   }, []);
-  console.log(productdata.response);
   return (
     <Col xl={12}>
       <Card>

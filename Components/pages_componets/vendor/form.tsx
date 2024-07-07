@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { CreateMembership } from "Components/slices/membership/thunk";
+import {
+  CREATE_NEW_VENDOR,
+  baseURL
+} from "../../../Components/helpers/url_helper";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const VendorForm = () => {
   const dispatch: any = useDispatch();
@@ -10,9 +16,6 @@ const VendorForm = () => {
       name: "",
       email: "",
       mobile: "",
-      totalAmount: "",
-      totalSale: "",
-      details: [],
     },
   ]);
 
@@ -25,9 +28,44 @@ const VendorForm = () => {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async(e: any) => {
     e.preventDefault();
-    // Add your submission logic here
+    try {
+      const options = {
+        url: `${baseURL}${CREATE_NEW_VENDOR}`,
+        method: "POST",
+        data: membership
+      };
+      const fetchapi = await axios.request(options);
+      const resp: any = await fetchapi;
+      const { response, baseResponse } = resp;
+      if (baseResponse.status === 1) {
+        Swal.fire({
+          title: "Success",
+          text: baseResponse.message,
+          icon: "success",
+        });
+        setMembership([
+          {
+            name: "",
+            email: "",
+            mobile: "",
+          },
+        ]);
+      }else if (baseResponse.status === 0) {
+        Swal.fire({
+          title: "error",
+          text: baseResponse.message,
+          icon: "error",
+        });
+      }
+    } catch (error: any) {
+      Swal.fire({
+        title: error,
+        text: error,
+        icon: "error",
+      });
+    }
   };
 
   const addRow = () => {
@@ -37,9 +75,6 @@ const VendorForm = () => {
         name: "",
         email: "",
         mobile: "",
-        totalAmount: "",
-        totalSale: "",
-        details: [],
       });
       return updatedMembership;
     });
@@ -104,40 +139,6 @@ const VendorForm = () => {
                       type="text"
                       onChange={(e) => handleChange(e, index)}
                       value={item.mobile}
-                      required
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label
-                      htmlFor={`totalSale${index}`}
-                      className="form-label"
-                    >
-                      Total Sale
-                    </Form.Label>
-                    <Form.Control
-                      name="totalSale"
-                      id={`totalSale${index}`}
-                      placeholder="Enter Total Sale..."
-                      type="text"
-                      onChange={(e) => handleChange(e, index)}
-                      value={item.totalSale}
-                      required
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label
-                      htmlFor={`totalAmount${index}`}
-                      className="form-label"
-                    >
-                      Total Amount
-                    </Form.Label>
-                    <Form.Control
-                      name="totalAmount"
-                      id={`totalAmount${index}`}
-                      placeholder="Enter Total Amount..."
-                      type="text"
-                      onChange={(e) => handleChange(e, index)}
-                      value={item.totalAmount}
                       required
                     />
                   </Col>

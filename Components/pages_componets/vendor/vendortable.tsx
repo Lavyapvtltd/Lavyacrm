@@ -1,21 +1,40 @@
 import { selected_is_success } from "Components/slices/membership/reducer";
 import { GetMembership } from "Components/slices/membership/thunk";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import {
+  GET_ALL_VENDORS,
+  baseURL
+} from "../../../Components/helpers/url_helper";
+
 
 const VendorTable = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const [vendors,setVendors] = useState([]);
+  console.log(vendors,"frjfj");
+
   const { data } = useSelector((state: any) => ({
     data: state.membership.data,
   }));
 
+  const vendorlist = async()=>{
+    try{
+      const data:any = await axios(`${baseURL}${GET_ALL_VENDORS}`);
+      const {baseResponse,response}:any = data;
+      setVendors(response);
+    }catch(error){
+      console.log("Something went wrong");
+    }
+  }
+
   useEffect(() => {
-    // dispatch(GetMembership());
-  }, [dispatch]);
+    vendorlist();
+  }, []);
 
   // Static default entry
   const defaultEntry = {

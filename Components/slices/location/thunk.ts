@@ -60,13 +60,25 @@ export const DeleteLocation = (id: any) => async (dispatch: any) => {
   try {
     const options = {
       url: `${baseURL}${DELETELOCATION}${id}`,
-      method: "DELETE",
+      method: "GET",
     };
     const fetchapi = await axios.request(options);
     const resp: any = await fetchapi;
     const { response, baseResponse } = resp;
     if (baseResponse.status === 1) {
-      dispatch(GetAllLocation());
+      Swal.fire({
+        title: "Good job!",
+        text: baseResponse.message,
+        icon: "success",
+      }).then(() => {
+        dispatch(GetAllLocation());
+      });
+    } else {
+      Swal.fire({
+        title: "Something went wrong",
+        text: "error",
+        icon: "error",
+      });
     }
   } catch (error) {
     console.log("error", error);
@@ -79,7 +91,7 @@ export const updateLocation =
       const options = {
         url: `${baseURL}${UPDATELOCATION}${id}`,
         method: "PATCH",
-        data: { radius: values.radius ,locationName: values.locationName},
+        data: { radius: values.radius,locationName:values.locationName },
       };
       const fetchapi = await axios.request(options);
       const resp: any = await fetchapi;
@@ -87,7 +99,7 @@ export const updateLocation =
       if (baseResponse.status === 1) {
         Swal.fire({
           title: "Good job!",
-          text: response.message,
+          text: baseResponse.message,
           icon: "success",
         }).then(() => {
           dispatch(GetAllLocation());
