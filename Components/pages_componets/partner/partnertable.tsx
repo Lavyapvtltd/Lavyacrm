@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Dropdown, Modal, Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { GetAllPartner } from "Components/slices/partner/thunk";
+import { ADD_NEW_PARTNER, GET_ALL_PARTNER, baseURL } from "Components/helpers/url_helper";
 
 interface Partner {
   _id: string;
@@ -27,26 +26,33 @@ interface Partner {
 }
 
 const Partnertable: React.FC = () => {
-  const dispatch = useDispatch();
   const [partners, setPartners] = useState<Partner[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
 
-  const partnerData = useSelector((state: any) => state.partner.partnerData); // Replace 'any' with your actual Redux state type
+  const fetchPartners = async () => {
+    try {
+      const response = await fetch(`${baseURL}${GET_ALL_PARTNER}`);
+      const data = await response.json();
+      
+      console.log("Full response:", data); // Log the entire response
 
-  useEffect(() => {
-    const fetchPartners = async () => {
-      await dispatch(GetAllPartner());
-    };
-
-    fetchPartners();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (partnerData) {
-      setPartners(partnerData);
+      // Check the response structure
+      if (data && data.baseResponse.status === 1) {
+        setPartners(data.response); // Set partners directly from response
+      } else {
+        console.error("Failed to fetch partners.");
+      }
+    } catch (error) {
+      console.error("Error fetching partners:", error);
     }
-  }, [partnerData]);
+  };
+
+  console.log("partners"+partners)
+
+  useEffect(() => {
+    fetchPartners();
+  }, []);
 
   const handleShowModal = (partner: Partner) => {
     setSelectedPartner(partner);
@@ -69,12 +75,8 @@ const Partnertable: React.FC = () => {
                 variant="link-dark"
                 className="text-reset dropdown-btn arrow-none p-0"
               >
-                <span className="fw-semibold text-uppercase fs-12">
-                  Sort by:
-                </span>
-                <span className="text-muted">
-                  Today<i className="mdi mdi-chevron-down ms-1"></i>
-                </span>
+                <span className="fw-semibold text-uppercase fs-12">Sort by:</span>
+                <span className="text-muted">Today<i className="mdi mdi-chevron-down ms-1"></i></span>
               </Dropdown.Toggle>
               <Dropdown.Menu align="end">
                 <Dropdown.Item href="#">Today</Dropdown.Item>
@@ -102,7 +104,7 @@ const Partnertable: React.FC = () => {
             </thead>
             <tbody>
               {partners.length > 0 ? (
-                partners.map((partner) => (
+                partners.map((partner: Partner) => (
                   <tr key={partner._id}>
                     <td>{partner.city.cityName}</td>
                     <td>{partner.hub.hubName}</td>
