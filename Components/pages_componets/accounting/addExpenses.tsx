@@ -31,15 +31,15 @@ const AddExpenses = () => {
     },
   ]);
 
-  const handleChange = (e, index, detailIndex) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    index: number,
+    detailIndex: number
+  ) => {
     const { name, value } = e.target;
     setMembership((prevMembership) => {
       const updatedMembership = [...prevMembership];
-      if (name === "title") {
-        updatedMembership[index].title = value;
-      } else {
-        updatedMembership[index].details[detailIndex][name] = value;
-      }
+      updatedMembership[index].details[detailIndex][name] = value;
       return updatedMembership;
     });
   };
