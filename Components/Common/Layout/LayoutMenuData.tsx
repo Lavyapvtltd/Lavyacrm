@@ -273,6 +273,102 @@ const Navdata = () => {
           },
           parentId: "Accounting",
           stateVariables: isSignIn,
+        }, 
+        {
+          id: "totalSalewithoutVip",
+          label: "Total Sale Without VIP",
+          link: "/accounting/total-sale-without-vip",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+        {
+          id: "totalSalewithVip",
+          label: "Total Sale With VIP",
+          link: "/accounting/total-sale-with-vip",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+        {
+          id: "totalAmountRecieved",
+          label: "Total amount Received by company",
+          link: "/accounting/total-amount-received-by-company",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+        {
+          id: "totalAmountRefund",
+          label: "Total amount Refund by company",
+          link: "/accounting/total-amount-refund-by-company",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+        {
+          id: "totalOfferBalance",
+          label: "Total Offer Balance by company",
+          link: "/accounting/total-offer-balance-by-company",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+        {
+          id: "purchase",
+          label: "Purchase by Company",
+          link: "/accounting/purchase",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        }, 
+        {
+          id: "expenses",
+          label: "Expenses",
+          link: "/accounting/expenses",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
+        },
+        {
+          id: "tax",
+          label: "Tax",
+          link: "/accounting/tax",
+
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Accounting",
+          stateVariables: isSignIn,
         },
       ],
     },
