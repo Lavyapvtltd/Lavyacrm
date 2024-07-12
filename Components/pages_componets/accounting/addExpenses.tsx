@@ -31,6 +31,8 @@ const AddExpenses = () => {
     },
   ]);
 
+  type DetailKeys = 'totalSale' | 'totalAmount' | 'totalRefund' | 'offerBalance' | 'addPurchase' | 'addExpenses' | 'vendor' | 'productName' | 'productQuantity' | 'productPrice' | 'totalAmountWithTax';
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     index: number,
@@ -39,7 +41,7 @@ const AddExpenses = () => {
     const { name, value } = e.target;
     setMembership((prevMembership) => {
       const updatedMembership = [...prevMembership];
-      updatedMembership[index].details[detailIndex][name] = value;
+      updatedMembership[index].details[detailIndex][name as DetailKeys] = value;
       return updatedMembership;
     });
   };
