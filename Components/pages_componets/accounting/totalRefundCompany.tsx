@@ -25,6 +25,8 @@ const TotalRefundCompany = () => {
 
   const handleDownloadPDF = () => {
     const input = tableRef.current;
+    if (!input) return; // Guard clause for null reference
+
     html2canvas(input, { scale: 2 }).then(canvas => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape orientation

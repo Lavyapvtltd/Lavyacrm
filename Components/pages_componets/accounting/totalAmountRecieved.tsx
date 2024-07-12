@@ -33,6 +33,8 @@ const TotalAmountRecieved = () => {
 
   const handleDownloadPDF = () => {
     const input = tableRef.current;
+    if (!input) return; // Guard clause for null reference
+
     html2canvas(input, { scale: 2 }).then(canvas => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
@@ -63,19 +65,19 @@ const TotalAmountRecieved = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th colSpan="4" className="text-center">Wallet recharge</th>
-                <th colSpan="1" className="text-center">Vip membership</th>
-                <th colSpan="3" className="text-center">Order</th>
+                <th colSpan={4} className="text-center">Wallet Recharge</th>
+                <th colSpan={1} className="text-center">VIP Membership</th>
+                <th colSpan={3} className="text-center">Order</th>
               </tr>
               <tr>
                 <th>SR NO</th>
                 <th>Date</th>
                 <th>Online (C15)</th>
-                <th>By cash (C16)</th>
+                <th>By Cash (C16)</th>
                 <th>Online (C17)</th>
                 <th>Wallet (C18)</th>
                 <th>Online (C19)</th>
-                <th>Cash on delivery (C20)</th>
+                <th>Cash on Delivery (C20)</th>
               </tr>
             </thead>
             <tbody>
