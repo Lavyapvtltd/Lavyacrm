@@ -31,56 +31,6 @@ const AddPurchase = () => {
     },
   ]);
 
-  const handleChange = (e, index, detailIndex) => {
-    const { name, value } = e.target;
-    setMembership((prevMembership) => {
-      const updatedMembership = [...prevMembership];
-      if (name === "title") {
-        updatedMembership[index].title = value;
-      } else {
-        updatedMembership[index].details[detailIndex][name] = value;
-      }
-      return updatedMembership;
-    });
-  };
-
-  const calculateTotalBalance = (detail) => {
-    const { totalAmount, addPurchase, addExpenses, totalRefund, offerBalance } = detail;
-    return (
-      parseFloat(totalAmount || 0) -
-      (parseFloat(addPurchase || 0) +
-        parseFloat(addExpenses || 0) +
-        parseFloat(totalRefund || 0) +
-        parseFloat(offerBalance || 0))
-    ).toFixed(2);
-  };
-
-  const handleSubmit = () => {
-    const arrayToSubmit = membership.map((item) => ({
-      membershipTitle: item.title,
-      details: item.details.map((detail) => ({
-        totalSale: detail.totalSale,
-        totalAmount: detail.totalAmount,
-        totalRefund: detail.totalRefund,
-        offerBalance: detail.offerBalance,
-        addPurchase: detail.addPurchase,
-        addExpenses: detail.addExpenses,
-        totalBalance: calculateTotalBalance(detail),
-        vendor: detail.vendor,
-        productName: detail.productName,
-        productQuantity: detail.productQuantity,
-        productPrice: detail.productPrice,
-        billNo: detail.billNo,
-        billDate: detail.billDate,
-        sgst: detail.sgst,
-        cgst: detail.cgst,
-        igst: detail.igst,
-        totalAmountWithoutTax: detail.totalAmountWithoutTax,
-        totalAmountWithTax: detail.totalAmountWithTax,
-      })),
-    }));
-    dispatch(CreateMembership(arrayToSubmit));
-  };
   return (
     <div className="container-fluid">
       <Card>
@@ -89,10 +39,6 @@ const AddPurchase = () => {
         autoComplete="off"
         className="needs-formik p-2"
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
       >
         <div className="d-flex flex-column gap-6">
           {membership.map((item, index) => (
@@ -108,7 +54,6 @@ const AddPurchase = () => {
                       id="totalSale"
                       placeholder="Enter Total Sale..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
                       value={detail.totalSale}
                       required
                     />
@@ -122,7 +67,7 @@ const AddPurchase = () => {
                       id="totalAmount"
                       placeholder="Enter Total Amount..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.totalAmount}
                       required
                     />
@@ -136,7 +81,7 @@ const AddPurchase = () => {
                       id="totalRefund"
                       placeholder="Enter Total Refund..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.totalRefund}
                       required
                     />
@@ -150,7 +95,7 @@ const AddPurchase = () => {
                       id="offerBalance"
                       placeholder="Enter Offer Balance..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.offerBalance}
                       required
                     />
@@ -164,7 +109,7 @@ const AddPurchase = () => {
                       id="addPurchase"
                       placeholder="Enter Add Purchase..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.addPurchase}
                       required
                     />
@@ -178,7 +123,7 @@ const AddPurchase = () => {
                       id="addExpenses"
                       placeholder="Enter Add Expenses..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.addExpenses}
                       required
                     />
@@ -191,7 +136,7 @@ const AddPurchase = () => {
                       name="vendor"
                       id="vendor"
                       as="select"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.vendor}
                       required
                     >
@@ -208,7 +153,7 @@ const AddPurchase = () => {
                       id="productName"
                       placeholder="Enter Product Name..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.productName}
                       required
                     />
@@ -222,7 +167,7 @@ const AddPurchase = () => {
                       id="productQuantity"
                       placeholder="Enter Product Quantity..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.productQuantity}
                       required
                     />
@@ -236,7 +181,7 @@ const AddPurchase = () => {
                       id="productPrice"
                       placeholder="Enter Product Price..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.productPrice}
                       required
                     />
@@ -250,7 +195,7 @@ const AddPurchase = () => {
                       id="billNo"
                       placeholder="Enter Bill No..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.billNo}
                       required
                     />
@@ -264,7 +209,7 @@ const AddPurchase = () => {
                       id="billDate"
                       placeholder="Enter Bill Date..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.billDate}
                       required
                     />
@@ -278,7 +223,7 @@ const AddPurchase = () => {
                       id="sgst"
                       placeholder="Enter SGST..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.sgst}
                       required
                     />
@@ -292,7 +237,7 @@ const AddPurchase = () => {
                       id="cgst"
                       placeholder="Enter cgst..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.cgst}
                       required
                     />
@@ -306,7 +251,7 @@ const AddPurchase = () => {
                       id="igst"
                       placeholder="Enter igst..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.igst}
                       required
                     />
@@ -320,7 +265,7 @@ const AddPurchase = () => {
                       id="totalAmountWithoutTax"
                       placeholder="Enter Total Amount Without Tax..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.totalAmountWithoutTax}
                       required
                     />
@@ -334,7 +279,7 @@ const AddPurchase = () => {
                       id="totalAmountWithTax"
                       placeholder="Enter Total Amount With Tax..."
                       type="text"
-                      onChange={(e) => handleChange(e, index, detailIndex)}
+                      
                       value={detail.totalAmountWithTax}
                       required
                     />
