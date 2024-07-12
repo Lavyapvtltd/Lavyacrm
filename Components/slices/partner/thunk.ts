@@ -5,7 +5,7 @@ import {
 } from "Components/helpers/url_helper";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { api_is_success } from "./reducer";
+import { api_is_success ,api_is_error} from "./reducer";
 
 export const AddnewPartner = (values: any) => async (dispatch: any) => {
   try {
@@ -52,13 +52,16 @@ export const GetAllPartner = () => async (dispatch: any) => {
       url: `${baseURL}${GET_ALL_PARTNER}`,
       method: "GET",
     };
-    const fetchapi = await axios.request(options);
-    const resp: any = await fetchapi;
-    const { response, baseResponse } = resp;
-    if (baseResponse.status === 1) {
-      dispatch(api_is_success(response));
+    const response = await axios.request(options);
+
+    // Assuming the API response is structured correctly
+    if (response.data && response.data.baseResponse.status === 1) {
+      dispatch(api_is_success(response.data.response));
+    } else {
+      dispatch(api_is_error("Failed to fetch partners.")); // Handle failure case
     }
   } catch (error) {
-    console.log("error", error);
+    console.log("Error fetching partners:", error);
+    dispatch(api_is_error("Error fetching partners.")); // Dispatch error action
   }
 };

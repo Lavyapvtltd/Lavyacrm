@@ -3,26 +3,52 @@ import { Button, Card, Col, Dropdown, Modal, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllPartner } from "Components/slices/partner/thunk";
 
-const Partnertable = () => {
-  const dispatch = useDispatch();
-  const [partners, setPartners] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedPartner, setSelectedPartner] = useState(null);
+interface Partner {
+  _id: string;
+  city: {
+    cityName: string;
+  };
+  hub: {
+    hubName: string;
+  };
+  name: string;
+  email: string;
+  contact: string;
+  address: string;
+  orders?: {
+    user: {
+      name: string;
+    };
+    status: string;
+    deliveryDate: string;
+    amount: number;
+    paymentOption: string;
+  }[];
+}
 
-  const { partnerData } = useSelector((state) => ({
-    partnerData: state.partner.partnerData,
-  }));
+const Partnertable: React.FC = () => {
+  const dispatch = useDispatch();
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+
+  const partnerData = useSelector((state: any) => state.partner.partnerData); // Replace 'any' with your actual Redux state type
 
   useEffect(() => {
     const fetchPartners = async () => {
       await dispatch(GetAllPartner());
-      setPartners(partnerData);
     };
 
     fetchPartners();
-  }, [dispatch, partnerData]);
+  }, [dispatch]);
 
-  const handleShowModal = (partner) => {
+  useEffect(() => {
+    if (partnerData) {
+      setPartners(partnerData);
+    }
+  }, [partnerData]);
+
+  const handleShowModal = (partner: Partner) => {
     setSelectedPartner(partner);
     setShowModal(true);
   };
@@ -92,7 +118,7 @@ const Partnertable = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No Partner Details available.</td>
+                  <td colSpan={6}>No Partner Details available.</td>
                 </tr>
               )}
             </tbody>
@@ -129,7 +155,7 @@ const Partnertable = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5">No orders available.</td>
+                    <td colSpan={5}>No orders available.</td>
                   </tr>
                 )}
               </tbody>
