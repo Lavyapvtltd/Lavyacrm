@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import Swal from "sweetalert2";
 import {
   GET_ALL_VENDORS,
+  DELETE_VENDOR,
   baseURL,
 } from "../../../Components/helpers/url_helper";
 
@@ -21,12 +23,38 @@ const VendorTable: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [vendors, setVendors] = useState<Vendor[]>([]); // Specify the type for vendors
-  console.log(vendors, "frjfj");
+  const [vendors, setVendors] = useState<Vendor[]>([]); 
 
   const { data } = useSelector((state: any) => ({
     data: state.membership.data,
   }));
+
+  const DeleteVendor = async(id:any)=>{
+    try{
+      const data:any = await axios(`${baseURL}${DELETE_VENDOR}${id}`);
+      const {baseResponse,response}:any = data;
+      if (baseResponse.status === 1) {
+        Swal.fire({
+          title: "Success",
+          text: baseResponse.message,
+          icon: "success",
+        });
+        vendorlist();
+      }else if (baseResponse.status === 0) {
+        Swal.fire({
+          title: "error",
+          text: baseResponse.message,
+          icon: "error",
+        });
+      }
+    }catch(error:any){
+      Swal.fire({
+        title: error,
+        text: error,
+        icon: "error",
+      });
+    }
+  }
 
   const vendorlist = async()=>{
     try{
@@ -53,6 +81,7 @@ const VendorTable: React.FC = () => {
             <Table striped bordered hover>
               <thead>
                 <tr>
+                  <th>Actions</th>
                   <th>Vendor ID</th>
                   <th>Name</th>
                   <th>Email</th>
@@ -62,6 +91,28 @@ const VendorTable: React.FC = () => {
               <tbody>
                 {vendors.map((vendor, index) => (
                   <tr key={vendor._id}>
+                    <td>
+                      <>
+                        <div className="d-flex align-items-center">
+                          <div className="flex-grow-1">
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => DeleteVendor(vendor._id)}
+                            >
+                              <i className="bi bi-trash" />
+                            </span>
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => {
+                                router.push(`/vendor/edit-vendor/${vendor._id}`);
+                              }}
+                            >
+                              <i className="bi bi-pencil" />
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    </td>
                     <td>{index + 1}</td>
                     <td>{vendor.name}</td>
                     <td>{vendor.email}</td>

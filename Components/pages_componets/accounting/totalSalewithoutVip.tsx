@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Card, Col, Row, Table } from "react-bootstrap";
+import axios from "axios";
+import {
+  GET_TOTAL_SALE_WITHOUT_VIP,
+  baseURL,
+} from "../../../Components/helpers/url_helper";
 
 const TotalSaleWithOutVip = () => {
   const router = useRouter();
+  const [sales,setSales] = useState([]);
+  const getTotalSaleWithVip = async()=>{
+    try{
+      const data:any = await axios(`${baseURL}${GET_TOTAL_SALE_WITHOUT_VIP}`);
+      const {baseResponse,response}:any = data;
+      setSales(response);
+    }catch(error){
+      console.log("something went wrong");
+    }
+  }
+  useEffect(()=>{
+    getTotalSaleWithVip();
+  },[])
   
   const data = [
     {
@@ -51,19 +69,19 @@ const TotalSaleWithOutVip = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.productName}</td>
-                <td>{item.unit}</td>
-                <td>{item.unitPrice}</td>
-                <td>{item.totalAmountWithoutTax}</td>
-                <td>{item.sgstT1}</td>
-                <td>{item.sgstT2}</td>
-                <td>{item.igstT3}</td>
-                <td>{item.taxAmountT4}</td>
-                <td>{item.totalAmountWithTax}</td>
-              </tr>
+            {sales.map((item:any,index) => (
+                <tr key={item._id}>
+                  <td>{++index}</td>
+                  <td>{item.product_name}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price}</td>
+                  <td>{item.total_amount_without_tax}</td>
+                  <td>{item.sgst}</td>
+                  <td>{item.cgst}</td>
+                  <td>{item.igst}</td>
+                  <td>{item.total_tax}</td>
+                  <td>{item.total_amount_with_tax}</td>
+                </tr>
             ))}
           </tbody>
         </Table>

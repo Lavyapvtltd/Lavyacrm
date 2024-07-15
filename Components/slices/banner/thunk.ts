@@ -7,7 +7,6 @@ export const Uploadbanner = (values: any) => async (dispatch: any) => {
   try {
     const form = new FormData();
     values.images.map((item: any) => form.append("upload", item));
-
     const options = {
       method: "POST",
       url: `${baseURL}${UPLOAD_BANNER}`,
@@ -24,13 +23,13 @@ export const Uploadbanner = (values: any) => async (dispatch: any) => {
     if (response.baseResponse.status === 1) {
       Swal.fire({
         title: "Good job!",
-        text: response.message,
+        text: response.baseResponse.message,
         icon: "success",
       });
     } else {
       Swal.fire({
         title: "error",
-        text: response.message,
+        text: response.baseResponse.message,
         icon: "error",
       });
       dispatch(api_is_error(response));

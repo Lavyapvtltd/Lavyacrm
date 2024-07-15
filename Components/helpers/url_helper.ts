@@ -129,6 +129,9 @@ export const CREATE_OFFER = "/offer/create-new-offer";
 export const GET_ALL_OFFER = "/offer/fetch-all-offer";
 
 export const UPLOAD_BANNER = "/banner/upload-banner-images";
+export const GET_ALL_BANNERS = "/banner/get-all-banners";
+export const DELETE_BANNER = "/banner/delete-banner-by-id/"
+export const UPDATE_BANNER = "/banner//update-banner-by-id/"
 
 export const CREATE_MEMBERSHIP = "/vip/membership/subscribe-new-membership";
 
@@ -155,3 +158,10 @@ export const GETUSER = "/login/get-all-app-user";
 //Vendor
 export const CREATE_NEW_VENDOR = "/vendor/add-vendor";
 export const GET_ALL_VENDORS = "/vendor/get-all-vendors"
+export const GET_VENDOR = "/vendor/get-vendor-by-id/"
+export const UPDATE_VENDOR = "/vendor/update-vendor-by-id/"
+export const DELETE_VENDOR = "/vendor/delete-vendor-by-id/"
+
+
+export const GET_TOTAL_SALE_WITH_VIP = "/accounting/total-sale-with-vip"
+export const GET_TOTAL_SALE_WITHOUT_VIP = "/accounting/total-sale-without-vip"

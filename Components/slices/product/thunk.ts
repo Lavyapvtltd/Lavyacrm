@@ -104,7 +104,9 @@ export const SingleProductImage = (values: any, productId:any) => async (dispatc
     form.append("id", productId);
     form.append("status", values.status);
     form.append("icon", values.iconImage);
-
+    console.log(productId,"vvvvvvvvvv");
+    console.log( values.status,"vvvvvvvvvv");
+    console.log( values.iconImage,"vvvvvvvvvv");
     const options = {
       method: "POST",
       url: `${baseURL}/product/single-image-product`,
@@ -213,6 +215,7 @@ export const editProduct = (id: any, values: any) => async (dispatch: any) => {
   const { response, baseResponse }:any = resp;
   console.log(resp);
   if (baseResponse.status === 1) {
+    console.log(values,"sdddddd");
     dispatch(SingleProductImage(values,response._id));
     Swal.fire({
       title: "Good job!",

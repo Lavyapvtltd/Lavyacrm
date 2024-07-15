@@ -8,9 +8,18 @@ import { Col } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import { Uploadbanner } from "Components/slices/banner/thunk";
 import { useDispatch } from "react-redux";
-import BannerTable from "../../Components/pages_componets/banner/bannerTable";
+import Swal from "sweetalert2";
+import axios from "axios";
+import {
+    UPDATE_BANNER,
+    baseURL,
+} from "../../../Components/helpers/url_helper";
+import { useParams } from "next/navigation";
 
 const index = () => {
+  const params = useParams();
+  const id = params?.bannerid;
+  console.log(id,"df");
   const dispatch: any = useDispatch();
   const router = useRouter();
   const formik: any = useFormik({
@@ -23,8 +32,42 @@ const index = () => {
     validationSchema: Yup.object({
       images: Yup.array().required("Required"),
     }),
-    onSubmit: (values: any) => {
-      dispatch(Uploadbanner(values));
+    onSubmit: async(values: any) => {
+        try {
+            const form = new FormData();
+            values.images.map((item: any) => form.append("upload", item));
+            const options = {
+              method: "PATCH",
+              url: `${baseURL}${UPDATE_BANNER}${id}`,
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+              data: form,
+            };
+            const apifetch = await axios.request(options);
+            const response: any = await apifetch;
+            if (response.baseResponse.status === 1) {
+              Swal.fire({
+                title: "Good job!",
+                text: response.baseResponse.message,
+                icon: "success",
+              });
+            } else {
+              Swal.fire({
+                title: "error",
+                text: response.baseResponse.message,
+                icon: "error",
+              });
+            }
+            return response;
+          } catch (error: any) {
+            console.log(error);
+            Swal.fire({
+              title: "error!",
+              text: error,
+              icon: "error",
+            });
+          }
       formik.resetForm();
       // alert("Submitted");
     },
@@ -78,11 +121,10 @@ const index = () => {
               </div>
             )}
             <button type="submit" className="btn btn-primary">
-              Upload
+              Update
             </button>
           </Col>
         </form>
-        <BannerTable />
       </div>
     </React.Fragment>
   );
