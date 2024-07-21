@@ -3,12 +3,12 @@
 // export const imagebaseURL = "http://18.204.165.219:9291/resources/";
 
 // LIVE;
-export const baseURL = "https://api.lavyacompany.com/api/v1";
-export const imagebaseURL = "https://api.lavyacompany.com/resources/";
+// export const baseURL = "https://api.lavyacompany.com/api/v1";
+// export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.13:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.13:9291/resources/";
+export const baseURL = "http://192.168.1.13:9291/api/v1";
+export const imagebaseURL = "http://192.168.1.13:9291/resources/";
 
 // export const baseURL = "http://192.168.29.91:9291/api/v1";
 // export const imagebaseURL = "http://192.168.29.91:9291/resources/";
@@ -165,3 +165,8 @@ export const DELETE_VENDOR = "/vendor/delete-vendor-by-id/"
 
 export const GET_TOTAL_SALE_WITH_VIP = "/accounting/total-sale-with-vip"
 export const GET_TOTAL_SALE_WITHOUT_VIP = "/accounting/total-sale-without-vip"
+export const GET_ALL_AMOUNT = "/accounting/total-amount-received-by-company"
+export const CREATE_PURCHASE = "/accounting/purchase-by-user"
+export const GET_ALL_PURCHAES = "/accounting/get-all-purchase-by-user"
+export const CREATE_EXPENSES = "/accounting/expenses"
+export const GET_ALL_EXPENSES = "/accounting/get-all-expenses"

@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Col, Table } from "react-bootstrap";
+import axios from "axios";
+import {
+  GET_ALL_PURCHAES,
+  baseURL,
+} from "../../../Components/helpers/url_helper";
 
 const PurchaseTable = () => {
   const router = useRouter();
-  
+  const [purchses,setPurchses] = useState([]);
   const data = [
     {
       srNo: 1,
@@ -40,6 +45,16 @@ const PurchaseTable = () => {
     },
   ];
 
+  const getAllPurchase = async()=>{
+    const data:any = await axios(`${baseURL}${GET_ALL_PURCHAES}`);
+    const {baseResponse,response}:any = data;
+    setPurchses(response);
+  }
+
+  useEffect(()=>{
+    getAllPurchase();
+  },[])
+
   return (
     <div>
       <Col xl={12}>
@@ -63,22 +78,22 @@ const PurchaseTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.srNo}>
-                <td>{item.srNo}</td>
-                <td>{item.vendorName}</td>
-                <td>{item.productName}</td>
-                <td>{item.billDate}</td>
-                <td>{item.productQuantity}</td>
-                <td>{item.productPrice}</td>
-                <td>{item.billNo}</td>
+            {purchses?.map((item:any,index:any) => (
+              <tr key={item._id}>
+                <td>{++index}</td>
+                <td>{item.vendor.name}</td>
+                <td>{item.product_name}</td>
+                <td>{item.bill_date}</td>
+                <td>{item.product_qty}</td>
+                <td>{item.product_price}</td>
+                <td>{item.bill_no}</td>
                 <td>{item.sgst}</td>
                 <td>{item.cgst}</td>
                 <td>{item.igst}</td>
-                <td>{item.totalAmountWithoutTax}</td>
-                <td>{item.totalAmountWithTax}</td>
-                <td>{item.paymentStatus}</td>
-                <td>{item.paymentUTRNo}</td>
+                <td>{item.total_amount_without_tax}</td>
+                <td>{item.total_amount_with_tax}</td>
+                <td>success</td>
+                <td>12345</td>
               </tr>
             ))}
           </tbody>

@@ -21,10 +21,12 @@ const EditRechargeForm = ({ rechargeId }: any) => {
     initialValues: {
       value: selected.value,
       cashback: selected.cashback,
+      validity:selected.validity
     },
     validationSchema: Yup.object({
       value: Yup.string().required("Please enter value."),
       cashback: Yup.string().required("Please enter cashback."),
+      validity: Yup.string().required("Please validity."),
     }),
     onSubmit: (values) => {
       dispatch(EditRechargeOffer(values, rechargeId, router));
@@ -99,6 +101,34 @@ const EditRechargeForm = ({ rechargeId }: any) => {
                   </Form.Control.Feedback>
                 ) : null}
               </div>
+
+              <div>
+                <Form.Label htmlFor="email" className="form-label">
+                  Validity
+                </Form.Label>
+                <Form.Control
+                  name="validity"
+                  id="validity"
+                  className="form-control"
+                  placeholder="Enter validity"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.validity}
+                  isInvalid={
+                    formik.touched.validity && formik.errors.validity
+                      ? true
+                      : false
+                  }
+                  required
+                />
+                {formik.touched.validity && formik.errors.validity ? (
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.validity}
+                  </Form.Control.Feedback>
+                ) : null}
+              </div>
+              
 
               <div className="text-end">
                 <Button variant="secondary" type="submit" id="addNewContact">

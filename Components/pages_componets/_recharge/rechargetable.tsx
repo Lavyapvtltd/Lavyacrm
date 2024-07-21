@@ -68,7 +68,12 @@ const Rechargetable = () => {
         filterable: true,
         accessor: "cashback",
       },
-
+      {
+        Header: "Validity",
+        disableFilters: true,
+        filterable: true,
+        accessor: "validity",
+      },
       {
         Header: "Created Date",
         accessor: (cellProps: any) => {

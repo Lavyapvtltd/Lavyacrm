@@ -75,6 +75,7 @@ export const CreateRechargeOffer = (values: any) => async (dispatch: any) => {
       data: {
         cashback: values.cashback,
         value: values.value,
+        validity:values.validity
       },
     };
     const fetchapi = await axios.request(data);
@@ -129,6 +130,7 @@ export const EditRechargeOffer =
         data: {
           cashback: values.cashback,
           value: values.value,
+          validity:values.validity
         },
       };
       const fetchapi = await axios.request(data);

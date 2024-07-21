@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Table } from "react-bootstrap";
+import axios from "axios";
+import {
+  GET_ALL_EXPENSES,
+  baseURL,
+} from "../../../Components/helpers/url_helper";
 
 const ExpensesTable = () => {
+  const [expenses,setExpenses] = useState([]);
   const data = [
     {
       srNo: 1,
@@ -34,7 +40,15 @@ const ExpensesTable = () => {
       expensesPaymentUtrNo: "",
     },
   ];
+  const getAllExpenses = async()=>{
+    const data:any = await axios(`${baseURL}${GET_ALL_EXPENSES}`);
+    const {baseResponse,response}:any = data;
+    setExpenses(response);
+  }
 
+  useEffect(()=>{
+    getAllExpenses();
+  },[])
   return (
     <div>
       <Col xl={12}>
@@ -57,21 +71,21 @@ const ExpensesTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.srNo}>
-                <td>{item.srNo}</td>
+            {expenses.map((item:any,index:any) => (
+              <tr key={item._id}>
+                <td>{++index}</td>
                 <td>{item.expensesName}</td>
                 <td>{item.expensesUserName}</td>
-                <td>{item.expensesBillNo}</td>
-                <td>{item.expensesBillDate}</td>
-                <td>{item.amountWithoutTax}</td>
-                <td>{item.expensesSgst}</td>
-                <td>{item.expensesCgst}</td>
-                <td>{item.expensesIgst}</td>
+                <td>{item.bill_no}</td>
+                <td>{item.bill_date}</td>
+                <td>{item.total_amount_without_tax}</td>
+                <td>{item.sgst}</td>
+                <td>{item.cgst}</td>
+                <td>{item.igst}</td>
                 <td>{item.expensesResion}</td>
-                <td>{item.expensesAmountWithTax}</td>
-                <td>{item.expensesPaymentType}</td>
-                <td>{item.expensesPaymentUtrNo}</td>
+                <td>{item.total_amount_with_tax}</td>
+                <td>success</td>
+                <td>12345</td>
               </tr>
             ))}
           </tbody>

@@ -1,12 +1,18 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { Col, Table, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import axios from "axios";
+import {
+  GET_ALL_AMOUNT,
+  baseURL,
+} from "../../../Components/helpers/url_helper";
 
 const TotalAmountRecieved = () => {
   const router = useRouter();
   const tableRef = useRef(null);
+  const [amounts,setAmounts] = useState([]);
   
   const data = [
     {
@@ -57,6 +63,19 @@ const TotalAmountRecieved = () => {
     });
   };
 
+  const getAllAmount = async()=>{
+    const data:any = await axios(`${baseURL}${GET_ALL_AMOUNT}`,{
+      method:"POST",
+      data: {}
+    });
+    const {baseResponse,response}:any = data;
+    setAmounts(response);
+  }
+
+  useEffect(()=>{
+    getAllAmount();
+  },[])
+
   return (
     <div>
       <Col xl={12}>
@@ -81,16 +100,16 @@ const TotalAmountRecieved = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
+              {amounts.map((item:any,index:any) => (
+                <tr key={item._id}>
+                  <td>{++index}</td>
                   <td>{item.date}</td>
                   <td>{item.onlineC15}</td>
                   <td>{item.byCashC16}</td>
-                  <td>{item.onlineC17}</td>
-                  <td>{item.walletC18}</td>
-                  <td>{item.onlineC19}</td>
-                  <td>{item.cashOnDeliveryC19}</td>
+                  <td>{item.membershipOnlineSales}</td>
+                  <td>{item.wallet}</td>
+                  <td>{item.online}</td>
+                  <td>{item.cashOnDelivery}</td>
                 </tr>
               ))}
             </tbody>
