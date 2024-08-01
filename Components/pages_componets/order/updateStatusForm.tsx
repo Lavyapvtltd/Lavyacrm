@@ -134,29 +134,26 @@ const UpdateStatus = () => {
                         Select Partner
                       </Form.Label>
                       <Form.Control
-                        as="select"
-                        name="partner"
-                        id="partner"
-                        className="form-control"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.unit && formik.errors.unit
-                            ? true
-                            : false
-                        }
-                        required
-                      >
-                        <option value="">Select Partner</option>
-                        {partnerData.map((item: any) => {
-                          return (
-                            <option value={JSON.stringify(item)}>
-                              {item.name}
-                            </option>
-                          );
-                        })}
-                      </Form.Control>
+                          as="select"
+                          name="partner"
+                          id="partner"
+                          className="form-control"
+                          type="text"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={formik.touched.unit && formik.errors.unit ? true : false}
+                          required
+                        >
+                          <option value="">Select Partner</option>
+                          {partnerData.map((item: any) => {
+                            return (
+                              <option key={item.id} value={JSON.stringify(item)}>
+                                {item.name}
+                              </option>
+                            );
+                          })}
+                        </Form.Control>
+
                       {formik.touched.unit && formik.errors.unit ? (
                         <Form.Control.Feedback type="invalid">
                           {formik.errors.unit}
@@ -288,12 +285,9 @@ const UpdateStatus = () => {
                 <h3 className="mt-5">Product Information</h3>
                 {selectedorder.product.map((item: any) => {
                   return (
-                    <Row>
+                    <Row key={item.id}> {/* Ensure item.id is unique for each item */}
                       <Col md={4}>
-                        <Form.Label
-                          htmlFor="subCategoryName"
-                          className="form-label"
-                        >
+                        <Form.Label htmlFor="subCategoryName" className="form-label">
                           Product name
                         </Form.Label>
                         <Row>
@@ -314,8 +308,7 @@ const UpdateStatus = () => {
                               type="text"
                               value={item.name}
                               isInvalid={
-                                formik.touched.subCategoryName &&
-                                formik.errors.subCategoryName
+                                formik.touched.subCategoryName && formik.errors.subCategoryName
                                   ? true
                                   : false
                               }
@@ -325,10 +318,7 @@ const UpdateStatus = () => {
                         </Row>
                       </Col>
                       <Col md={4}>
-                        <Form.Label
-                          htmlFor="subCategoryDescription"
-                          className="form-label"
-                        >
+                        <Form.Label htmlFor="subCategoryDescription" className="form-label">
                           Product Unit
                         </Form.Label>
                         <Form.Control
@@ -340,10 +330,7 @@ const UpdateStatus = () => {
                         />
                       </Col>
                       <Col md={4}>
-                        <Form.Label
-                          htmlFor="subCategoryDescription"
-                          className="form-label"
-                        >
+                        <Form.Label htmlFor="subCategoryDescription" className="form-label">
                           Product Price
                         </Form.Label>
                         <Form.Control
@@ -355,10 +342,7 @@ const UpdateStatus = () => {
                         />
                       </Col>
                       <Col md={4}>
-                        <Form.Label
-                          htmlFor="subCategoryDescription"
-                          className="form-label"
-                        >
+                        <Form.Label htmlFor="subCategoryDescription" className="form-label">
                           Product subscription type
                         </Form.Label>
                         <Form.Control
@@ -370,10 +354,7 @@ const UpdateStatus = () => {
                         />
                       </Col>
                       <Col md={4}>
-                        <Form.Label
-                          htmlFor="subCategoryDescription"
-                          className="form-label"
-                        >
+                        <Form.Label htmlFor="subCategoryDescription" className="form-label">
                           Product ordered quantity
                         </Form.Label>
                         <Form.Control
@@ -385,10 +366,7 @@ const UpdateStatus = () => {
                         />
                       </Col>
                       <Col md={4}>
-                        <Form.Label
-                          htmlFor="subCategoryDescription"
-                          className="form-label"
-                        >
+                        <Form.Label htmlFor="subCategoryDescription" className="form-label">
                           Product Start Date
                         </Form.Label>
                         <Form.Control
@@ -402,6 +380,7 @@ const UpdateStatus = () => {
                     </Row>
                   );
                 })}
+
                 <h3 className="mt-5">Shipping Information</h3>
                 <Row>
                   <Col md={4}>
