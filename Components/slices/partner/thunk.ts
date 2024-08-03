@@ -5,7 +5,7 @@ import {
 } from "Components/helpers/url_helper";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { api_is_success ,api_is_error} from "./reducer";
+import { api_is_success, api_is_error } from "./reducer";
 
 export const AddnewPartner = (values: any) => async (dispatch: any) => {
   try {
@@ -29,18 +29,25 @@ export const AddnewPartner = (values: any) => async (dispatch: any) => {
     };
     const fetchapi = await axios.request(data);
     const resp: any = await fetchapi;
-    const { baseResponse, response } = resp;
+    const { baseResponse, response } = resp.data; // Ensure this matches your API structure
+
     if (baseResponse.status === 1) {
       Swal.fire({
-        title: "Submittion success",
+        title: "Submission success",
         text: baseResponse.message,
         icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Submission failed",
+        text: baseResponse.message || "Unexpected error",
+        icon: "error",
       });
     }
   } catch (error: any) {
     Swal.fire({
-      title: "Submittion error",
-      text: error,
+      title: "Submission error",
+      text: error.message || "An unexpected error occurred",
       icon: "error",
     });
   }
@@ -49,19 +56,19 @@ export const AddnewPartner = (values: any) => async (dispatch: any) => {
 export const GetAllPartner = () => async (dispatch: any) => {
   try {
     const options = {
-      url: `${baseURL}${GET_ALL_PARTNER}`,
+      url: `${baseURL}${GET_ALL_PARTNER}`, // Added backticks here
       method: "GET",
     };
-    const response = await axios.request(options);
+    const response: any = await axios.request(options);
 
     // Assuming the API response is structured correctly
-    if (response.data && response.data.baseResponse.status === 1) {
-      dispatch(api_is_success(response.data.response));
+    if (response.response && response.response.baseResponse.status === 1) {
+      dispatch(api_is_success(response.response));
     } else {
-      dispatch(api_is_error("Failed to fetch partners.")); // Handle failure case
+      dispatch(api_is_error("Failed to fetch partners."));
     }
   } catch (error) {
     console.log("Error fetching partners:", error);
-    dispatch(api_is_error("Error fetching partners.")); // Dispatch error action
+    dispatch(api_is_error("Error fetching partners."));
   }
 };

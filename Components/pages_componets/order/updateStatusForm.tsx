@@ -70,7 +70,7 @@ const UpdateStatus = () => {
       return price;
     }, 0);
   };
-
+console.log("partnerDatapartnerData"+JSON.stringify(partnerData))
   return (
     <div className="container-fluid">
       <Col xl={12}>
@@ -114,9 +114,10 @@ const UpdateStatus = () => {
                         required
                       >
                         <option value="">Select Order Status Here</option>
-                        {status.map((item: any) => {
-                          return <option value={item}>{item}</option>;
+                        {status.map((item: any, index: number) => {
+                          return <option key={index} value={item}>{item}</option>;
                         })}
+
                       </Form.Control>
                       {formik.touched.unit && formik.errors.unit ? (
                         <Form.Control.Feedback type="invalid">
@@ -146,6 +147,7 @@ const UpdateStatus = () => {
                         >
                           <option value="">Select Partner</option>
                           {partnerData.map((item: any) => {
+                            console.log("item.name"+item.name)
                             return (
                               <option key={item.id} value={JSON.stringify(item)}>
                                 {item.name}
