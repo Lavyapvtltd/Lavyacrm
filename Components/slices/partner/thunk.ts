@@ -62,7 +62,7 @@ export const GetAllPartner = () => async (dispatch: any) => {
     const response: any = await axios.request(options);
 
     // Assuming the API response is structured correctly
-    if (response.response && response.response.baseResponse.status === 1) {
+    if (response && response.baseResponse.status === 1) {
       dispatch(api_is_success(response.response));
     } else {
       dispatch(api_is_error("Failed to fetch partners."));
