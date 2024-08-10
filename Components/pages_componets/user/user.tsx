@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllUser } from "Components/slices/user/thunk";
 import moment from "moment";
 import Link from "next/link";
+import Order from "pages/[orderId]";
 
 const User = () => {
   const dispatch : any = useDispatch();
@@ -20,6 +21,8 @@ const User = () => {
       { Header: "Email", accessor: "user.email" },
       { Header: "Mobile", accessor: "user.mobile" },
       { Header: "Wallet Amount", accessor: "walletAmount" },
+      { Header: "DOB", accessor: "dob" },
+      { Header: "Membership", accessor: "membership" },
       { Header: "Orders", accessor: "orders" },
       { Header: "Created Date", accessor: "createdDate" },
     ],
@@ -46,14 +49,26 @@ const User = () => {
                 data.map((row: any) => (
                   <tr key={row._id}>
                     <td>
-                      <Link href={`/user/user-detail/${row._id}`} legacyBehavior>
-                        <a>{row.name}</a>
-                      </Link>
+                      {row.name}
                     </td>
                     <td>{row.email}</td>
                     <td>{row.contact}</td>
-                    <td>{row.walletBalance}</td>
-                    <td>{row.orders.length}</td>
+                    <td>
+                      <Link href={`/user/wallet-history/${row._id}`} legacyBehavior>
+                        <a>{row.walletBalance}</a>
+                      </Link>
+                    </td>
+                    <td>{row.dob}</td>
+                    <td>
+                      <Link href={`/user/membership/${row._id}`} legacyBehavior>
+                        <a>{row.membership_active ? "Active" : "Deactive"}</a>
+                      </Link>
+                      </td>
+                    <td>
+                      <Link href={`/user/order-history/${row._id}`} legacyBehavior>
+                        <a>{row.orders.length}</a>
+                      </Link>
+                    </td>
                     <td>{moment(row.createdAt).format("Do MMM YY")}</td>
                   </tr>
                 ))

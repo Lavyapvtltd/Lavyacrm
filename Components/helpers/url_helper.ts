@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.13:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.13:9291/resources/";
+// export const baseURL = "http://192.168.0.177:9291/api/v1";
+// export const imagebaseURL = "http://192.168.0.177:9291/resources/";
 
 // export const baseURL = "http://192.168.29.91:9291/api/v1";
 // export const imagebaseURL = "http://192.168.29.91:9291/resources/";
