@@ -9,15 +9,79 @@ import { imagebaseURL } from "Components/helpers/url_helper";
 import moment from "moment";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GetAllSubCategory } from "Components/slices/category/thunk";
+import { useRouter } from "next/router";
+import {
+  DELETE_SUBCATEGORY_BY_ID,
+  baseURL
+} from "../../../Components/helpers/url_helper";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const SubCategoryTable = () => {
+  const router = useRouter();
   const dispatch: any = useDispatch();
   const { subcategorydata } = useSelector((state: any) => ({
     subcategorydata: state.CategorySlice.subcat,
   }));
 
+  const DeleteSubCategory = async(id:any)=>{
+    try{
+      const data:any = await axios(`${baseURL}${DELETE_SUBCATEGORY_BY_ID}${id}`);
+      const {baseResponse,response}:any = data;
+      if (baseResponse.status === 1) {
+        Swal.fire({
+          title: "Success",
+          text: baseResponse.message,
+          icon: "success",
+        });
+        dispatch(GetAllSubCategory());
+      }else if (baseResponse.status === 0) {
+        Swal.fire({
+          title: "error",
+          text: baseResponse.message,
+          icon: "error",
+        });
+      }
+    }catch(error:any){
+      Swal.fire({
+        title: error,
+        text: error,
+        icon: "error",
+      });
+    }
+  }
+
   const columns = useMemo(
     () => [
+      {
+        Header: "Actions",
+        accessor: (cellProps: any) => {
+          return (
+            <>
+              <div className="d-flex align-items-center">
+                <div className="flex-grow-1">
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => DeleteSubCategory(cellProps._id)}
+                  >
+                    <i className="bi bi-trash" />
+                  </span>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      router.push(`/sub-category/edit-subcategory/${cellProps._id}`);
+                    }}
+                  >
+                    <i className="bi bi-pencil" />
+                  </span>
+                </div>
+              </div>
+            </>
+          );
+        },
+        disableFilters: true,
+        filterable: true,
+      },
       {
         Header: "Name",
         accessor: (cellProps: any) => {

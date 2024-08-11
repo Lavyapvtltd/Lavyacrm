@@ -10,8 +10,8 @@ export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 // export const baseURL = "http://192.168.0.177:9291/api/v1";
 // export const imagebaseURL = "http://192.168.0.177:9291/resources/";
 
-// export const baseURL = "http://192.168.29.91:9291/api/v1";
-// export const imagebaseURL = "http://192.168.29.91:9291/resources/";
+// export const baseURL = "http://192.168.1.13:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.13:9291/resources/";
 
 // export const baseURL = "http://192.168.1.20:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.20:9291/resources/";
@@ -37,7 +37,7 @@ export const SOCIAL_LOGIN = "/social-login";
 
 //PROFILE
 export const POST_EDIT_JWT_PROFILE = "/post-jwt-profile";
-export const POST_EDIT_PROFILE = "/post-fake-profile";
+export   const POST_EDIT_PROFILE = "/post-fake-profile";
 
 //CALENDER
 export const GET_EVENTS = "/events";
@@ -78,11 +78,14 @@ export const GET_ALL_CATEGORY = "/category/get-all-categories";
 export const GET_ALL_SUB_CATEGORY_BY_CATID =
   "/category/get-sub-category-by-cat-id";
 export const GET_ALL_SUB_CATEGORY = "/category/get-all-sub-category";
+export const GET_SUBCATEGORY_BY_ID = "/category/get-subcategory-by-id/";
+export const UPDATE_SUBCATEGORY_BY_ID = "/category/update-subcategory-by-id/";
+export const DELETE_SUBCATEGORY_BY_ID = "/category/delete-subcategory-by-id/";
 /*  Category  */
 
 /* product */
 export const POST_NEW_PRODUCT = "/product/create-product";
-export const GET_ALL_PRODUCT = "/product/get-all-products";
+export const GET_ALL_PRODUCT = "/product/get-all-products-for-admin";
 export const UPDATE_STOCK = "/stock/update-qty";
 export const EDIT_PRODUCT = "/product/update-product-details";
 export const EDIT_PRODUCT_STATUS = "/product/update-product-status";
