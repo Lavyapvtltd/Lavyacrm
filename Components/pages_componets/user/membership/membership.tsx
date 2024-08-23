@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from "react";
 import { Table, Card, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllUser } from "Components/slices/user/thunk";
-import moment from "moment";
 
 const Membership = ({ userId }: any) => {
   const dispatch: any = useDispatch();

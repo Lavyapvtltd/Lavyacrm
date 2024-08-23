@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Dropdown, Modal, Table } from "react-bootstrap";
-import { ADD_NEW_PARTNER, GET_ALL_PARTNER, baseURL } from "Components/helpers/url_helper";
+import {Card, Col, Dropdown, Table } from "react-bootstrap";
+import {GET_ALL_PARTNER, baseURL } from "Components/helpers/url_helper";
+import Link from "next/link";
 
 interface Partner {
   _id: string;
@@ -27,8 +28,6 @@ interface Partner {
 
 const Partnertable: React.FC = () => {
   const [partners, setPartners] = useState<Partner[]>([]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
 
   const fetchPartners = async () => {
     try {
@@ -53,16 +52,6 @@ const Partnertable: React.FC = () => {
   useEffect(() => {
     fetchPartners();
   }, []);
-
-  const handleShowModal = (partner: Partner) => {
-    setSelectedPartner(partner);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedPartner(null);
-  };
 
   return (
     <Col xl={12}>
@@ -98,6 +87,7 @@ const Partnertable: React.FC = () => {
                 <th>Hub Name</th>
                 <th>Partner Name</th>
                 <th>Partner Email</th>
+                <th>Order Assign</th>
                 <th>Partner Contact</th>
                 <th>Partner Address</th>
               </tr>
@@ -109,11 +99,14 @@ const Partnertable: React.FC = () => {
                     <td>{partner.city.cityName}</td>
                     <td>{partner.hub.hubName}</td>
                     <td>
-                      <Button variant="link" onClick={() => handleShowModal(partner)}>
                         {partner.name}
-                      </Button>
                     </td>
                     <td>{partner.email}</td>
+                    <td>
+                      <Link href={`/partner/order-assign/${partner._id}`} legacyBehavior>
+                        <a>Order Assign</a>
+                      </Link>
+                    </td>
                     <td>{partner.contact}</td>
                     <td>{partner.address}</td>
                   </tr>
@@ -127,49 +120,6 @@ const Partnertable: React.FC = () => {
           </Table>
         </Card.Body>
       </Card>
-
-      {selectedPartner && (
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>{selectedPartner.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>Status</th>
-                  <th>Delivery Date</th>
-                  <th>Amount</th>
-                  <th>Payment Option</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedPartner.orders && selectedPartner.orders.length > 0 ? (
-                  selectedPartner.orders.map((order, index) => (
-                    <tr key={index}>
-                      <td>{order.user.name}</td>
-                      <td>{order.status}</td>
-                      <td>{order.deliveryDate}</td>
-                      <td>{order.amount}</td>
-                      <td>{order.paymentOption}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5}>No orders available.</td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
     </Col>
   );
 };

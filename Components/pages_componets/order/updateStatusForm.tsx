@@ -295,7 +295,7 @@ console.log("partnerDatapartnerData"+JSON.stringify(partnerData))
                         <Row>
                           <Col md={2}>
                             <img
-                              src={`${imagebaseURL}${item.image[0].filename}`}
+                              src={`${imagebaseURL}${item?.image[0]?.filename}`}
                               width="32"
                               height={50}
                               alt=""

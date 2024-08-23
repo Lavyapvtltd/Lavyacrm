@@ -18,6 +18,7 @@ const index = () => {
   );
 };
 
+
 index.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>;
 };
