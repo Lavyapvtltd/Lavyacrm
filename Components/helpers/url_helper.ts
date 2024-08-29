@@ -2,7 +2,7 @@
 // export const baseURL = "http://18.204.165.219:9291/api/v1";
 // export const imagebaseURL = "http://18.204.165.219:9291/resources/";
 
-// LIVE;
+// // LIVE;
 export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
@@ -114,6 +114,7 @@ export const ADD_NEW_HUB = "/hub/create-new-hub";
 /* PARTNER */
 export const GET_ALL_PARTNER = "/partner/get-all-partners";
 export const ADD_NEW_PARTNER = "/partner/add-new-partner";
+export const UPDATE_PARTNER_GIVEN_AMOUNT_BY_ID = "/partner/update-partner-given-amount-by-id/"
 /* PARTNER */
 
 /* CITY */
@@ -173,3 +174,4 @@ export const CREATE_PURCHASE = "/accounting/purchase-by-user"
 export const GET_ALL_PURCHAES = "/accounting/get-all-purchase-by-user"
 export const CREATE_EXPENSES = "/accounting/expenses"
 export const GET_ALL_EXPENSES = "/accounting/get-all-expenses"
+export const UPDATE_GIVEN_AMOUNT = "/accounting/update-given-amount-by-id/"

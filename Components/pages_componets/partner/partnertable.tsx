@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {Card, Col, Dropdown, Table } from "react-bootstrap";
-import {GET_ALL_PARTNER, baseURL } from "Components/helpers/url_helper";
+import {Card, Col, Dropdown, Table,Button, Modal,Form  } from "react-bootstrap";
+import {GET_ALL_PARTNER, baseURL,UPDATE_PARTNER_GIVEN_AMOUNT_BY_ID } from "Components/helpers/url_helper";
 import Link from "next/link";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 interface Partner {
   _id: string;
@@ -24,10 +26,85 @@ interface Partner {
     amount: number;
     paymentOption: string;
   }[];
+  collected_amount:number;
+  given_amount:number;
 }
 
 const Partnertable: React.FC = () => {
   const [partners, setPartners] = useState<Partner[]>([]);
+  const [partnerId,setPartnerId] = useState("");
+  console.log(partnerId,"er")
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    paymentAmount: '',
+    remark: '',
+  });
+
+  const handleShowModal = (purches_id:any) => {
+    setPartnerId(purches_id);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setFormData({
+      paymentAmount: '',
+      remark: '',
+    });
+    setPartnerId("");
+  };
+
+  const handleInputChange = (e:any) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e:any) => {
+    e.preventDefault();
+    if (!formData.paymentAmount || !formData.remark) {
+      Swal.fire({
+        title: "error",
+        text: "All fields are required.",
+        icon: "error",
+      });
+    }
+    try {
+      const options = {
+        url: `${baseURL}${UPDATE_PARTNER_GIVEN_AMOUNT_BY_ID}${partnerId}`,
+        method: "POST",
+        data: formData
+      };
+      const fetchapi = await axios.request(options);
+      const resp: any = await fetchapi;
+      const { response, baseResponse } = resp;
+      if(baseResponse.status==1)
+      {
+        Swal.fire({
+          title: "Success",
+          text: baseResponse.message,
+          icon: "success",
+        });
+        handleCloseModal(); 
+        setFormData({
+          paymentAmount: '',
+          remark: '',
+        });
+        setPartnerId("");
+      }
+      else{
+        Swal.fire({
+          title: "error",
+          text: baseResponse.message,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
 
   const fetchPartners = async () => {
     try {
@@ -90,6 +167,11 @@ const Partnertable: React.FC = () => {
                 <th>Order Assign</th>
                 <th>Partner Contact</th>
                 <th>Partner Address</th>
+                <th>Collected Amount</th>
+                <th>Given Amount</th>
+                <th>Pending Amount</th>
+                <th>Payment</th>
+                <th>Payment History</th>
               </tr>
             </thead>
             <tbody>
@@ -109,6 +191,19 @@ const Partnertable: React.FC = () => {
                     </td>
                     <td>{partner.contact}</td>
                     <td>{partner.address}</td>
+                    <td>{partner.collected_amount}</td>
+                    <td>{partner.given_amount}</td>
+                    <td>{partner.collected_amount - partner.given_amount}</td>
+                    <td>
+                        <Button variant="link" onClick={() => handleShowModal(partner._id)}>
+                            payment
+                        </Button>
+                    </td>
+                    <td>
+                      <Link href={`/partner/payment-history/${partner._id}`} legacyBehavior>
+                        <a>payment history</a>
+                      </Link>
+                    </td>
                   </tr>
                 ))
               ) : (
@@ -120,6 +215,46 @@ const Partnertable: React.FC = () => {
           </Table>
         </Card.Body>
       </Card>
+      {showModal && (
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Payment</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="formPayment">
+                <Form.Label>Payment Amount</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter payment amount"
+                  name="paymentAmount"
+                  value={formData.paymentAmount}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group controlId="formRemark" className="mt-3">
+                <Form.Label>Remark</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter remark"
+                  name="remark"
+                  value={formData.remark}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </Col>
   );
 };

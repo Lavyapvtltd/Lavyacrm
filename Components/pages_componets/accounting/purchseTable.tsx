@@ -92,7 +92,7 @@ const PurchaseTable = () => {
                 <td>{item.igst}</td>
                 <td>{item.total_amount_without_tax}</td>
                 <td>{item.total_amount_with_tax}</td>
-                <td>success</td>
+                <td>{item.status}</td>
                 <td>12345</td>
               </tr>
             ))}

@@ -10,6 +10,7 @@ import {
   DELETE_VENDOR,
   baseURL,
 } from "../../../Components/helpers/url_helper";
+import Link from "next/link";
 
 // Define Vendor interface
 interface Vendor {
@@ -17,6 +18,8 @@ interface Vendor {
   name: string;
   email: string;
   mobile: string;
+  total_amount_with_tax_sum:number;
+  amount_given_sum:number;
 }
 
 const VendorTable: React.FC = () => {
@@ -86,6 +89,10 @@ const VendorTable: React.FC = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Mobile</th>
+                  <th>Purchase</th>
+                  <th>Total Amount </th>   
+                  <th>Total Given Amount</th> 
+                  <th>Total Pending Amount</th>   
                 </tr>
               </thead>
               <tbody>
@@ -117,6 +124,14 @@ const VendorTable: React.FC = () => {
                     <td>{vendor.name}</td>
                     <td>{vendor.email}</td>
                     <td>{vendor.mobile}</td>
+                    <td>
+                      <Link href={`/vendor/purchase/${vendor._id}`} legacyBehavior>
+                        <a>Purchase</a>
+                      </Link>
+                    </td>
+                    <td>{vendor.total_amount_with_tax_sum}</td>
+                    <td>{vendor.amount_given_sum}</td>
+                    <td>{vendor.total_amount_with_tax_sum - vendor.amount_given_sum}</td>
                   </tr>
                 ))}
               </tbody>

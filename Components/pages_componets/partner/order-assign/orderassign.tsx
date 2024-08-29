@@ -81,7 +81,7 @@ const OrderAssign = ({ partnerId }: any) => {
     <Col xl={12}>
       <Card>
         <Card.Header>
-          <h4 className="card-title mb-0">Membership</h4>
+          <h4 className="card-title mb-0">Order Assign</h4>
         </Card.Header>
         <Card.Body>
           <Table striped bordered hover>
