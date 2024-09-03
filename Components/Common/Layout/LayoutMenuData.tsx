@@ -13,6 +13,7 @@ const Navdata = () => {
   const [delivery, setDelivery] = useState(false);
   const [location, setLocation] = useState(false);
   const [recharge, setRecharge] = useState(false);
+  const [firsttimerecharge, setfirsttimeRecharge] = useState(false);
   const [isPages, setIsPages] = useState(false);
   const [isMultiLevel, setIsMultiLevel] = useState(false);
 
@@ -233,7 +234,7 @@ const Navdata = () => {
         setIsCurrentState("BottleBreak");
         updateIconSidebar(e);
       },
-      stateVariables: vendor,
+      stateVariables: bottleBreak,
       subItems: [
         {
           id: "bottle",
@@ -244,7 +245,7 @@ const Navdata = () => {
             e.preventDefault();
             setIsSignIn(!isSignIn);
           },
-          parentId: "Vendor",
+          parentId: "bottle",
           stateVariables: isSignIn,
         },
       ],
@@ -879,6 +880,32 @@ const Navdata = () => {
           },
           parentId: "Recharge",
           stateVariables: "Recharge",
+        },
+      ],
+    },
+     {
+      id: "first_time_recharge",
+      label: "First Time Recharge",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setfirsttimeRecharge(!firsttimerecharge);
+        setIsCurrentState("first_time_recharge");
+        updateIconSidebar(e);
+      },
+      stateVariables: firsttimerecharge,
+      subItems: [
+        {
+          id: "first_time_recharge",
+          label: "First Time Recharge",
+          link: "/first-time-recharge",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "First_time_Recharge",
+          stateVariables: "First_time_Recharge",
         },
       ],
     },

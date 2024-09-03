@@ -146,6 +146,8 @@ export const EDIT_MEMBERSHIP = "/vip/membership/edit-membership";
 export const EDIT_CATEGORY = "/category/edit-category-by-id";
 
 export const CREATE_NEW_OFFER = "/recharge/create-recharge-offer";
+export const CREATE_FIRST_TIME_RECHARGE = "/first-time-recharge/create-first-time-recharge-offer";
+export const GET_FIRST_TIME_RECHARGE = "/first-time-recharge/get-all-first-time-offer";
 export const GET_RECHARGE_OFFER = "/recharge/get-all-offer";
 export const EDIT_RECHARGE_OFFER = "/recharge/update-offer";
 
