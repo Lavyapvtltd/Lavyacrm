@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Card, Col } from "react-bootstrap";
-import { EditRechargeOffer } from "Components/slices/offer/thunk";
+import { EditFirstTimeRechargeOffer } from "Components/slices/first_time_recharge/thunk";
 import { useRouter } from "next/router";
 
 const EditRechargeForm = ({ rechargeId }: any) => {
@@ -29,7 +29,7 @@ const EditRechargeForm = ({ rechargeId }: any) => {
       validity: Yup.string().required("Please validity."),
     }),
     onSubmit: (values) => {
-      dispatch(EditRechargeOffer(values, rechargeId, router));
+      dispatch(EditFirstTimeRechargeOffer(values, rechargeId, router));
       formik.resetForm();
     },
   });

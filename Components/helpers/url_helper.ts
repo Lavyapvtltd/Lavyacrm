@@ -2,7 +2,7 @@
 // export const baseURL = "http://18.204.165.219:9291/api/v1";
 // export const imagebaseURL = "http://18.204.165.219:9291/resources/";
 
-// // LIVE;
+// // // LIVE;
 export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
@@ -145,11 +145,17 @@ export const EDIT_MEMBERSHIP = "/vip/membership/edit-membership";
 
 export const EDIT_CATEGORY = "/category/edit-category-by-id";
 
+//recharge
 export const CREATE_NEW_OFFER = "/recharge/create-recharge-offer";
-export const CREATE_FIRST_TIME_RECHARGE = "/first-time-recharge/create-first-time-recharge-offer";
-export const GET_FIRST_TIME_RECHARGE = "/first-time-recharge/get-all-first-time-offer";
 export const GET_RECHARGE_OFFER = "/recharge/get-all-offer";
 export const EDIT_RECHARGE_OFFER = "/recharge/update-offer";
+
+//first time recharge
+export const CREATE_FIRST_TIME_RECHARGE = "/first-time-recharge/create-first-time-recharge-offer";
+export const GET_ALL_FIRST_TIME_RECHARGE = "/first-time-recharge/get-all-first-time-offer";
+export const EDIT_FIRST_TIME_RECHARGE = "/first-time-recharge/update-first-time-offer";
+export const DELETE_FIRST_TIME_RECHARGE = "/first-time-recharge/delete-by-id"
+export const CHANGE_STATUS_BY_ID = "/first-time-recharge/status-changestatusById-by-id"
 
 export const CHECK_WALLET_REQUEST =
   "/recharge-via-cash/fetch-request-for-recharge";

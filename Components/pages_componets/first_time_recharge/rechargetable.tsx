@@ -1,20 +1,21 @@
 import Link from "next/link";
-import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { Button, Card, Col, Dropdown } from "react-bootstrap";
-import { recentOrders } from "@common/data";
 import TableContainer from "@common/TableContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllCategory } from "Components/slices/category/thunk";
-import { imagebaseURL } from "Components/helpers/url_helper";
-import moment from "moment";
-import Custom_Modal from "@common/Modal";
-import SubCatForm from "../Sub_Category/form";
-import { useRouter } from "next/router";
-import { MdEditNote } from "react-icons/md";
-import { is_category_selected } from "Components/slices/category/reducer";
 import { GetfirstTimeRechargeOffer } from "Components/slices/first_time_recharge/thunk";
 import { is_recharge_selected } from "Components/slices/offer/reducer";
+import axios from "axios";
+import { MdEditNote, MdDelete, MdToggleOff, MdToggleOn } from "react-icons/md";
+import moment from "moment";
+import { useRouter } from "next/router";
+import {
+  baseURL,
+  DELETE_FIRST_TIME_RECHARGE,
+  CHANGE_STATUS_BY_ID
+} from "../../../Components/helpers/url_helper";
+import Swal from "sweetalert2";
+
 const Rechargetable = () => {
   const dispatch: any = useDispatch();
   const router = useRouter();
@@ -27,35 +28,99 @@ const Rechargetable = () => {
     dispatch(GetfirstTimeRechargeOffer());
   }, [dispatch]);
 
+  const handleDelete = async (id: string) => {
+    try {
+      const data:any = await axios.get(`${baseURL}${DELETE_FIRST_TIME_RECHARGE}/${id}`);
+      const {baseResponse,response}:any = data;
+      if (baseResponse.status === 1) {
+        Swal.fire({
+          title: "Success",
+          text: baseResponse.message,
+          icon: "success",
+        });
+        dispatch(GetfirstTimeRechargeOffer());
+      }else if (baseResponse.status === 0) {
+        Swal.fire({
+          title: "error",
+          text: baseResponse.message,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting offer:", error);
+    }
+  };
+
+  const handleStatusToggle = async (id: string, currentStatus: boolean) => {
+    try {
+      const newStatus = currentStatus ? false : true; 
+      const data:any = await axios.patch(`${baseURL}${CHANGE_STATUS_BY_ID}/${id}`, { status: newStatus });
+      const {baseResponse,response}:any = data;
+      if (baseResponse.status === 1) {
+        Swal.fire({
+          title: "Success",
+          text: baseResponse.message,
+          icon: "success",
+        });
+        dispatch(GetfirstTimeRechargeOffer());
+      }else if (baseResponse.status === 0) {
+        Swal.fire({
+          title: "error",
+          text: baseResponse.message,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error toggling status:", error);
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
         Header: "Actions",
         accessor: (cellProps: any) => {
           return (
-            <>
-              <div className="d-flex align-items-center">
-                <div className="flex-shrink-0 me-2">
-                  <Link
-                    href=""
-                    onClick={() => {
-                      router.push(
-                        `/recharge/edit-recharge-offer/${cellProps._id}`
-                      );
-                      dispatch(is_recharge_selected(cellProps));
-                    }}
-                  >
-                    <MdEditNote size={24} />
-                  </Link>
-                </div>
+            <div className="d-flex align-items-center">
+              <div className="flex-shrink-0 me-2">
+                <Link
+                  href=""
+                  onClick={() => {
+                    router.push(`/first-time-recharge/edit-recharge-offer/${cellProps._id}`);
+                    dispatch(is_recharge_selected(cellProps));
+                  }}
+                >
+                  <MdEditNote size={24} />
+                </Link>
               </div>
-            </>
+              <div className="flex-shrink-0 me-2">
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(cellProps._id)}
+                >
+                  <MdDelete size={24} />
+                </Button>
+              </div>
+              <div className="flex-shrink-0">
+                <Button
+                  variant={cellProps.status ? "success" : "secondary"}
+                  onClick={() => handleStatusToggle(cellProps._id, cellProps.status)}
+                >
+                  {cellProps.status ? <MdToggleOn size={24} /> : <MdToggleOff size={24} />}
+                </Button>
+              </div>
+            </div>
           );
         },
         disableFilters: true,
         filterable: true,
       },
-
+      {
+        Header: "Name",
+        disableFilters: true,
+        filterable: true,
+        accessor: "name",
+      },
       {
         Header: "Recharge Value",
         disableFilters: true,
@@ -94,14 +159,13 @@ const Rechargetable = () => {
     <Col xl={12}>
       <Card>
         <Card.Header className="align-items-center d-flex mb-n2">
-          <h4 className="card-title mb-0 flex-grow-1">Categories</h4>
+          <h4 className="card-title mb-0 flex-grow-1">First Time Recharge</h4>
           <div className="flex-shrink-0">
             <Dropdown className="card-header-dropdown">
               <Dropdown.Toggle
                 variant="link-dark"
                 className="text-reset dropdown-btn arrow-none p-0"
               >
-                {/* as={CustomToggle} */}
                 <span className="fw-semibold text-uppercase fs-12">
                   Sort by:
                 </span>
@@ -121,7 +185,6 @@ const Rechargetable = () => {
           </div>
         </Card.Header>
 
-        {/* <Card.Body> */}
         <TableContainer
           columns={columns || []}
           data={offerData || []}
@@ -132,7 +195,6 @@ const Rechargetable = () => {
           tableClass="table-centered align-middle table-nowrap mb-0"
           theadClass="table-light"
         />
-        {/* </Card.Body> */}
       </Card>
     </Col>
   );

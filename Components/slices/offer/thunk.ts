@@ -122,7 +122,6 @@ export const GetRechargeOffer = () => async (dispatch: any) => {
 
 export const EditRechargeOffer =
   (values: any, id: any, router: any) => async (dispatch: any) => {
-    console.log(values);
     try {
       const data = {
         url: `${baseURL}${EDIT_RECHARGE_OFFER}/${id}`,

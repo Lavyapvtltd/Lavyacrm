@@ -16,9 +16,11 @@ const FirstTimeRechargeForm = () => {
     initialValues: {
       value: "",
       cashback: "",
-      validity:""
+      validity:"",
+      name:""
     },
     validationSchema: Yup.object({
+      name: Yup.string().required("Please enter name ."),
       value: Yup.string().required("Please enter value ."),
       cashback: Yup.string().required("Please enter cashback."),
       validity: Yup.string().required("Please enter validity.")
@@ -50,6 +52,30 @@ const FirstTimeRechargeForm = () => {
             <div className="d-flex flex-column gap-3">
               <div>
                 <Form.Label htmlFor="name" className="form-label">
+                  Name
+                </Form.Label>
+                <Form.Control
+                  name="name"
+                  id="name"
+                  className="form-control"
+                  placeholder="Enter recharge name"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.name}
+                  isInvalid={
+                    formik.touched.value && formik.errors.value ? true : false
+                  }
+                  required
+                />
+                {formik.touched.value && formik.errors.value ? (
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.value}
+                  </Form.Control.Feedback>
+                ) : null}
+              </div>
+              <div>
+                <Form.Label htmlFor="name" className="form-label">
                   Recharge Value
                 </Form.Label>
                 <Form.Control
@@ -57,7 +83,7 @@ const FirstTimeRechargeForm = () => {
                   id="name"
                   className="form-control"
                   placeholder="Enter recharge value"
-                  type="text"
+                  type="number"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.value}
@@ -72,7 +98,7 @@ const FirstTimeRechargeForm = () => {
                   </Form.Control.Feedback>
                 ) : null}
               </div>
-
+                
               <div>
                 <Form.Label htmlFor="email" className="form-label">
                   Cashback Offer Value
@@ -82,7 +108,7 @@ const FirstTimeRechargeForm = () => {
                   id="cashback"
                   className="form-control"
                   placeholder="Enter offer value"
-                  type="text"
+                  type="number"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.cashback}
@@ -109,7 +135,7 @@ const FirstTimeRechargeForm = () => {
                   id="validity"
                   className="form-control"
                   placeholder="Enter validity"
-                  type="text"
+                  type="number"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.validity}
