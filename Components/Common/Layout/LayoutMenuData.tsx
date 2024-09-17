@@ -14,6 +14,7 @@ const Navdata = () => {
   const [location, setLocation] = useState(false);
   const [recharge, setRecharge] = useState(false);
   const [firsttimerecharge, setfirsttimeRecharge] = useState(false);
+  const [testimonial,setTestimonial] = useState(false);
   const [isPages, setIsPages] = useState(false);
   const [isMultiLevel, setIsMultiLevel] = useState(false);
 
@@ -906,6 +907,32 @@ const Navdata = () => {
           },
           parentId: "First_time_Recharge",
           stateVariables: "First_time_Recharge",
+        },
+      ],
+    },
+    {
+      id: "testimonials",
+      label: "Testimonial",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setTestimonial(!testimonial);
+        setIsCurrentState("testimonials");
+        updateIconSidebar(e);
+      },
+      stateVariables: testimonial,
+      subItems: [
+        {
+          id: "testimonial",
+          label: "Testimonial",
+          link: "/testimonial",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "testimonial",
+          stateVariables: "testimonial",
         },
       ],
     },

@@ -79,8 +79,7 @@ export const EditFirstTimeRechargeOffer =
         data: {
           cashback: values.cashback,
           value: values.value,
-          validity:values.validity,
-          name:values.name
+          validity:values.validity
         },
       };
       const fetchapi = await axios.request(data);

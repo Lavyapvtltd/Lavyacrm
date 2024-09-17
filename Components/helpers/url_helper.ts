@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.0.177:9291/api/v1";
-// export const imagebaseURL = "http://192.168.0.177:9291/resources/";
+// export const baseURL = "http://192.168.1.24:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.24:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -28,6 +28,14 @@ export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 //REGISTER
 export const POST_FAKE_REGISTER = "/post-fake-register";
 
+
+//TESTIMONIAL
+export const GET_ALL_TESTIMONIAL = "/testimonial/get-all-testimonial-for-admin";
+export const ADD_NEW_TESTIMONIAL = "/testimonial/create-testimonial";
+export const UPDATE_TESTIMOINAL_STATUS= "/testimonial/update-testimonial-status/";
+export const EDIT_TESTIMONIAL = "/testimonial/edit-testimonial/" ;
+export const DELETE_TESTIMONIAL = "/testimonial/delete-testimonial/"
+
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";
@@ -37,7 +45,7 @@ export const SOCIAL_LOGIN = "/social-login";
 
 //PROFILE
 export const POST_EDIT_JWT_PROFILE = "/post-jwt-profile";
-export   const POST_EDIT_PROFILE = "/post-fake-profile";
+export const POST_EDIT_PROFILE = "/post-fake-profile";
 
 //CALENDER
 export const GET_EVENTS = "/events";
@@ -132,10 +140,11 @@ export const DETAILS_OF_GATEWAY = "/order/get-payment-details-by-id";
 export const CREATE_OFFER = "/offer/create-new-offer";
 export const GET_ALL_OFFER = "/offer/fetch-all-offer";
 
-export const UPLOAD_BANNER = "/banner/upload-banner-images";
-export const GET_ALL_BANNERS = "/banner/get-all-banners";
+export const UPLOAD_BANNER = "/banner/upload-banner-image";
+export const GET_ALL_BANNERS = "/banner/get-all-banners-for-admin";
 export const DELETE_BANNER = "/banner/delete-banner-by-id/"
-export const UPDATE_BANNER = "/banner//update-banner-by-id/"
+export const UPDATE_BANNER = "/banner/update-banner-by-id/"
+export const UPDATE_BANNER_STATUS = "/banner/update-banner-status/";
 
 export const CREATE_MEMBERSHIP = "/vip/membership/subscribe-new-membership";
 

@@ -32,6 +32,8 @@ import offerSlices from "./offer/reducer";
 import membershipSlice from "./membership/reducer";
 import userSlices from "./user/reducer";
 import firsttimerechargeSlices from './first_time_recharge/reducer';
+import testimonialSlices from './testimonial/reducer';
+import bannerSlices from './banner/reducer';
 
 const combinedReducer = combineReducers({
   Layout: LayoutReducer,
@@ -55,7 +57,9 @@ const combinedReducer = combineReducers({
   offer: offerSlices,
   membership: membershipSlice,
   user: userSlices,
-  first_time_recharge:firsttimerechargeSlices
+  first_time_recharge:firsttimerechargeSlices,
+  testimonial:testimonialSlices,
+  banner:bannerSlices
 });
 
 const reducer = (state: any, action: AnyAction) => {

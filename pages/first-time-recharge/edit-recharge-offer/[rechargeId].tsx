@@ -21,11 +21,9 @@ const EditRechargeForm = ({ rechargeId }: any) => {
     initialValues: {
       value: selected.value,
       cashback: selected.cashback,
-      validity:selected.validity,
-      name:selected.name
+      validity:selected.validity
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please enter name."),
       value: Yup.string().required("Please enter value."),
       cashback: Yup.string().required("Please enter cashback."),
       validity: Yup.string().required("Please validity."),
@@ -54,30 +52,6 @@ const EditRechargeForm = ({ rechargeId }: any) => {
             <div className="d-flex flex-column gap-3">
               <div>
                 <Form.Label htmlFor="name" className="form-label">
-                  Name
-                </Form.Label>
-                <Form.Control
-                  name="name"
-                  id="name"
-                  className="form-control"
-                  placeholder="Enter recharge value"
-                  type="text"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  isInvalid={
-                    formik.touched.name && formik.errors.name ? true : false
-                  }
-                  required
-                />
-                {formik.touched.value && formik.errors.value ? (
-                  <Form.Control.Feedback type="invalid">
-                    {formik.errors.value}
-                  </Form.Control.Feedback>
-                ) : null}
-              </div>
-              <div>
-                <Form.Label htmlFor="name" className="form-label">
                   Recharge Value
                 </Form.Label>
                 <Form.Control
@@ -100,6 +74,7 @@ const EditRechargeForm = ({ rechargeId }: any) => {
                   </Form.Control.Feedback>
                 ) : null}
               </div>
+
               <div>
                 <Form.Label htmlFor="email" className="form-label">
                   Cashback Offer Value

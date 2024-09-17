@@ -1,18 +1,18 @@
 import React, { ReactElement } from "react";
 import Head from "next/head";
 import Layout from "@common/Layout";
-import BannerTable from "Components/pages_componets/banner/bannerTable";
-import Form from "Components/pages_componets/banner/form";
+import TestimonialTable from "Components/pages_componets/testimonial/testimonialtable";
+import Form from "Components/pages_componets/testimonial/form";
 
 const index = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Banner | Lavya -Admin </title>
+        <title>Testimonial | Lavya -Admin </title>
       </Head>
       <div className="page-content">
         <Form />
-        <BannerTable />
+        <TestimonialTable />
       </div>
     </React.Fragment>
   );

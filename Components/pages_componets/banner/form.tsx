@@ -4,12 +4,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Form, Row } from "react-bootstrap";
-import { editBanner } from "Components/slices/banner/thunk"; 
+import { Uploadbanner } from "Components/slices/banner/thunk"; 
 
-const TestimonialForm = ({bannerId}: any) => {
+const TestimonialForm = () => {
   const dispatch: any = useDispatch();
   const formik: any = useFormik({
     enableReinitialize: true,
+
     initialValues: {
       image:""
     },
@@ -17,7 +18,7 @@ const TestimonialForm = ({bannerId}: any) => {
       image: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      dispatch(editBanner(bannerId, values));
+      dispatch(Uploadbanner(values));
       formik.resetForm();
     },
   });
@@ -83,7 +84,7 @@ const TestimonialForm = ({bannerId}: any) => {
                 </Col>
               </Row>
               <Button variant="secondary" type="submit">
-                Update
+                Save
               </Button>
             </div>
           </Form>
@@ -92,8 +93,5 @@ const TestimonialForm = ({bannerId}: any) => {
     </>
   );
 };
-export const getServerSideProps = (context: any) => {
-  const { bannerId } = context.query;
-  return { props: { bannerId } };
-};
+
 export default TestimonialForm;
