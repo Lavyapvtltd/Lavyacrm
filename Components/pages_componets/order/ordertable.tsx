@@ -1,10 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Dropdown, Row } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Row, FormControl } from "react-bootstrap";
 import TableContainer from "@common/TableContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { imagebaseURL } from "Components/helpers/url_helper";
 import moment from "moment";
 import {
   GetAllOrders,
@@ -17,6 +16,7 @@ import { GetAllPartner } from "Components/slices/partner/thunk";
 
 const Order = () => {
   const [status, setStatus] = useState("ORDERED");
+  const [search, setSearch] = useState(""); // State to hold search value
   const dispatch: any = useDispatch();
   const { order, partnerData, request } = useSelector((state: any) => ({
     order: state.order.orderData,
@@ -46,6 +46,25 @@ const Order = () => {
     });
   }
 
+  const filteredRows = rows.filter((row: any) => {
+    // Filter rows based on the search value
+    const orderNo = row?.order_no?.toString().toLowerCase() || "";
+    const partnerName = row?.partnerName?.toLowerCase() || "";
+    const customerName = row?.user?.name?.toLowerCase() || "";
+    const orderDate = moment(row?.createdAt).format("Do MMM YY").toLowerCase();
+    const walletBalance = row?.user?.walletBalance?.toString().toLowerCase() || "";
+    const status = row?.status?.toLowerCase() || "";
+
+    return (
+      orderNo.includes(search.toLowerCase()) ||
+      partnerName.includes(search.toLowerCase()) ||
+      customerName.includes(search.toLowerCase()) ||
+      orderDate.includes(search.toLowerCase()) ||
+      walletBalance.includes(search.toLowerCase()) ||
+      status.includes(search.toLowerCase())
+    );
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -70,18 +89,15 @@ const Order = () => {
           );
         },
         disableFilters: true,
-        filterable: true,
       },
       {
         Header: "Partner",
         disableFilters: true,
-        filterable: true,
         accessor: "partnerName",
       },
       {
         Header: "Customer Name",
         disableFilters: true,
-        filterable: true,
         accessor: (cellProps: any) => {
           return (
             <>
@@ -97,15 +113,12 @@ const Order = () => {
       {
         Header: "Order Date",
         disableFilters: true,
-        filterable: true,
         accessor: (cellProps: any) => {
           return (
             <>
               <div className="d-flex align-items-center">
                 <div className="flex-grow-1">
-                  <strong>
-                    {moment(cellProps.createdAt).format("Do MMM YY")}
-                  </strong>
+                  <strong>{moment(cellProps.createdAt).format("Do MMM YY")}</strong>
                 </div>
               </div>
             </>
@@ -122,74 +135,34 @@ const Order = () => {
           );
         },
         disableFilters: true,
-        filterable: true,
       },
       {
         Header: "Status",
         disableFilters: true,
-        filterable: true,
         accessor: (cellProps: any) => {
           switch (cellProps.status) {
             case "PROCCESSING":
-              return (
-                <span className="badge text-warning bg-warning-subtle">
-                  {cellProps.status}
-                </span>
-              );
+              return <span className="badge text-warning bg-warning-subtle">{cellProps.status}</span>;
             case "FAILED":
-              return (
-                <span className="badge text-danger  bg-danger-subtle">
-                  {cellProps.status}
-                </span>
-              );
             case "DECLINED":
-              return (
-                <span className="badge text-danger  bg-danger-subtle">
-                  {cellProps.status}
-                </span>
-              );
+              return <span className="badge text-danger bg-danger-subtle">{cellProps.status}</span>;
             case "ONTHEEWAY":
-              return (
-                <span className="badge text-success  bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
             case "ORDERED":
-              return (
-                <span className="badge text-success  bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
             case "DELIVERED":
-              return (
-                <span className="badge text-success  bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "ASSIGNED":
-              return (
-                <span className="badge text-warning bg-warning-subtle">
-                  {cellProps.status}
-                </span>
-              );
-            case "NEXTDAYDELIVERY":
-              return (
-                <span className="badge text-warning bg-warning-subtle">
-                  {cellProps.status}
-                </span>
-              );
             case "SUBSCRIBED":
-              return (
-                <span className="badge text-success bg-success-subtle">
-                  {cellProps.status}
-                </span>
-              );
+              return <span className="badge text-success bg-success-subtle">{cellProps.status}</span>;
+            case "ASSIGNED":
+            case "NEXTDAYDELIVERY":
+              return <span className="badge text-warning bg-warning-subtle">{cellProps.status}</span>;
+            default:
+              return <span>{cellProps.status}</span>;
           }
         },
       },
     ],
     []
   );
+
   useEffect(() => {
     dispatch(GetAllOrders());
     dispatch(GetAllPartner());
@@ -199,7 +172,7 @@ const Order = () => {
   return (
     <Col xl={12}>
       <Card>
-        <Col>
+      <Col>
           <Row className="px-2 py-2">
             <Col md={1}>
               <span
@@ -257,12 +230,20 @@ const Order = () => {
                 <>NEXTDAYDELIVERY</>
               </span>
             </Col>
-            {/* <Col>
-              <span>
-                <h6>C</h6>
-              </span>
-            </Col> */}
-            {/* <Col></Col> */}
+           
+          </Row>
+        </Col>
+        <Col>
+          <Row className="px-2 py-2">
+            <Col md={12}>
+              {/* Search Input */}
+              <FormControl
+                type="text"
+                placeholder="Search orders..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Col>
           </Row>
         </Col>
         <Card.Header className="align-items-center d-flex mb-n2">
@@ -294,10 +275,7 @@ const Order = () => {
 
         <TableContainer
           columns={columns || []}
-          data={rows || []}
-          // data={
-          //   order.response.filter((item: any) => item.status === status) || []
-          // }
+          data={filteredRows || []}
           isGlobalFilter={false}
           iscustomPageSize={false}
           isBordered={false}
@@ -310,9 +288,10 @@ const Order = () => {
           title={"Update Status"}
           onHide={() => setShowStatus(false)}
           footer={<Button onClick={() => setShowStatus(false)}>Close</Button>}
-          children={<UpdateStatus />}
           fullscreen={true}
-        />
+          >
+          <UpdateStatus />
+          </Custom_Modal>
       </Card>
     </Col>
   );

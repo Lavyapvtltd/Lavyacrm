@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo } from "react";
-import { Table, Card, Col } from "react-bootstrap";
+import React, { useEffect, useMemo, useState } from "react";
+import { Table, Card, Col, FormControl } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllUser } from "Components/slices/user/thunk";
 import moment from "moment";
 import Link from "next/link";
-import Order from "pages/[orderId]";
 
 const User = () => {
-  const dispatch : any = useDispatch();
+  const dispatch: any = useDispatch();
+  const [search, setSearch] = useState(""); // State for search input
 
   const data = useSelector((state: any) => state.user.userdata || []);
 
@@ -15,6 +15,7 @@ const User = () => {
     dispatch(GetAllUser());
   }, [dispatch]);
 
+  // Columns definition
   const columns = useMemo(
     () => [
       { Header: "Customer Name", accessor: "user.name" },
@@ -29,6 +30,29 @@ const User = () => {
     []
   );
 
+  // Filter the data based on search input
+  const filteredData = data.filter((row: any) => {
+    const customerName = row?.name?.toLowerCase() || "";
+    const email = row?.email?.toLowerCase() || "";
+    const mobile = String(row?.contact || "").toLowerCase();
+    const walletBalance = row?.walletBalance?.toString() || "";
+    const dob = row?.dob?.toString() || "";
+    const membership = row?.membership_active ? "Active" : "Deactive";
+    const orders = row?.orders.length.toString() || "";
+    const createdDate = moment(row?.createdAt).format("Do MMM YY").toLowerCase();
+
+    return (
+      customerName.includes(search.toLowerCase()) ||
+      email.includes(search.toLowerCase()) ||
+      mobile.includes(search.toLowerCase()) ||
+      walletBalance.includes(search.toLowerCase()) ||
+      dob.includes(search.toLowerCase()) ||
+      membership.toLowerCase().includes(search.toLowerCase()) ||
+      orders.includes(search.toLowerCase()) ||
+      createdDate.includes(search.toLowerCase())
+    );
+  });
+
   return (
     <Col xl={12}>
       <Card>
@@ -36,6 +60,14 @@ const User = () => {
           <h4 className="card-title mb-0">All Users</h4>
         </Card.Header>
         <Card.Body>
+          {/* Search Input */}
+          <FormControl
+            type="text"
+            placeholder="Search users..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mb-3"
+          />
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -45,12 +77,10 @@ const User = () => {
               </tr>
             </thead>
             <tbody>
-              {data.length > 0 ? (
-                data.map((row: any) => (
+              {filteredData.length > 0 ? (
+                filteredData.map((row: any) => (
                   <tr key={row._id}>
-                    <td>
-                      {row.name}
-                    </td>
+                    <td>{row.name}</td>
                     <td>{row.email}</td>
                     <td>{row.contact}</td>
                     <td>
@@ -63,7 +93,7 @@ const User = () => {
                       <Link href={`/user/membership/${row._id}`} legacyBehavior>
                         <a>{row.membership_active ? "Active" : "Deactive"}</a>
                       </Link>
-                      </td>
+                    </td>
                     <td>
                       <Link href={`/user/order-history/${row._id}`} legacyBehavior>
                         <a>{row.orders.length}</a>
