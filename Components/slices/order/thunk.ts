@@ -68,12 +68,13 @@ export const UpdateOrder =
   };
 
 export const AssigneOrder =
-  (id: any, values: any, setShowStatus: any) => async (dispatch: any) => {
+  (id: any, values: any,StartDate:any, setShowStatus: any) => async (dispatch: any) => {
     try {
       const options = {
         method: "PATCH",
         url: `${baseURL}${ASSIGN_ORDER}/${id}`,
         data: {
+          start_date:StartDate,
           status: values.orderstatus,
           partner: JSON.parse(values.partner),
         },

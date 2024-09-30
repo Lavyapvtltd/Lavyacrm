@@ -287,7 +287,6 @@ const Order = () => {
           show={showStatus}
           title={"Update Status"}
           onHide={() => setShowStatus(false)}
-          footer={<Button onClick={() => setShowStatus(false)}>Close</Button>}
           fullscreen={true}
           >
           <UpdateStatus />

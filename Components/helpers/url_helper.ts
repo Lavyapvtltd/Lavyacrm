@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.24:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.24:9291/resources/";
+// export const baseURL = "http://192.168.1.16:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.16:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -35,6 +35,9 @@ export const ADD_NEW_TESTIMONIAL = "/testimonial/create-testimonial";
 export const UPDATE_TESTIMOINAL_STATUS= "/testimonial/update-testimonial-status/";
 export const EDIT_TESTIMONIAL = "/testimonial/edit-testimonial/" ;
 export const DELETE_TESTIMONIAL = "/testimonial/delete-testimonial/"
+
+//VACATIONS
+export const DELETE_VACATION_BY_ID = "/vacation/delete-vacation-by-id/"
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
@@ -174,6 +177,7 @@ export const UPDATELOCATION = "/location/update-location/";
 
 //Get User
 export const GETUSER = "/login/get-all-app-user";
+export const UPDATE_USER_WALLET = "/login/update-user-wallet/";
 
 
 //Vendor

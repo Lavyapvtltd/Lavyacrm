@@ -31,6 +31,7 @@ const UpdateStatus = () => {
     selectedorder: state.order.selectedorder,
     partnerData: state.partner.partnerData,
   }));
+  const [StartDate,setStartDate] = useState(selectedorder.deliveryDate);
 
   const formik: any = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -44,7 +45,7 @@ const UpdateStatus = () => {
       orderstatus: Yup.string().required("Please update status"),
     }),
     onSubmit: (values) => {
-      dispatch(AssigneOrder(selectedorder._id, values, setShowStatus));
+      dispatch(AssigneOrder(selectedorder._id, values, StartDate, setShowStatus));
       formik.resetForm();
     },
   });
@@ -162,16 +163,6 @@ console.log("partnerDatapartnerData"+JSON.stringify(partnerData))
                         </Form.Control.Feedback>
                       ) : null}
                     </div>
-                  </Col>
-
-                  <Col md={2} className="mt-4">
-                    <Button
-                      variant="secondary"
-                      type="submit"
-                      id="addNewContact"
-                    >
-                      Save
-                    </Button>
                   </Col>
                 </Row>
                 <h3 className="mt-5">Order Information</h3>
@@ -373,11 +364,20 @@ console.log("partnerDatapartnerData"+JSON.stringify(partnerData))
                         </Form.Label>
                         <Form.Control
                           className="form-control"
-                          placeholder="Enter Name"
+                          placeholder="Enter Delivery Date"
                           type="text"
-                          value={`Date ${selectedorder.deliveryDate}`}
-                          readOnly
+                          onChange={(e:any)=>setStartDate(e.target.value)}
+                          value={StartDate}
                         />
+                      </Col>
+                      <Col md={2} className="mt-4">
+                        <Button
+                          variant="secondary"
+                          type="submit"
+                          id="addNewContact"
+                        >
+                          Update
+                        </Button>
                       </Col>
                     </Row>
                   );
