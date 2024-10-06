@@ -5,6 +5,7 @@ import { GetAllUser } from "Components/slices/user/thunk";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { DELETE_VACATION_BY_ID, baseURL } from "Components/helpers/url_helper";
+import moment from "moment";
 
 const Vacations = ({ userId }: any) => {
   const dispatch: any = useDispatch();
@@ -27,15 +28,6 @@ const Vacations = ({ userId }: any) => {
     ];
     return baseColumns;
   }, [user]);
-
-  function convertToDDMMYYYY(isoDatetime:any) {
-    const date = new Date(isoDatetime);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const year = date.getFullYear();
-    
-    return `${day}/${month}/${year}`;
-  }
 
   const handleEndVacations = async(vacation_id:any)=>{
     try {
@@ -81,8 +73,8 @@ const Vacations = ({ userId }: any) => {
                             {user?.vacations?.map((vacation: any,index:any) => (
                                 <tr key={vacation._id}>
                                     <td>{++index}</td>
-                                    <td>{convertToDDMMYYYY(vacation.start_date)}</td>
-                                    <td>{convertToDDMMYYYY(vacation.end_date)}</td>
+                                    <td>{moment(vacation.start_date).format("Do MMM YY")}</td>
+                                    <td>{moment(vacation.end_date).format("Do MMM YY")}</td>
                                     <td><button className="btn btn-success" onClick={()=>handleEndVacations(vacation._id)}>End vacation</button></td>
                                 </tr>
                             ))}

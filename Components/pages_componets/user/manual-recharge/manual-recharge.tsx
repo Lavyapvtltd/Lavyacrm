@@ -5,6 +5,7 @@ import { GetAllUser } from "Components/slices/user/thunk";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { DELETE_VACATION_BY_ID, baseURL } from "Components/helpers/url_helper";
+import moment from "moment";
 
 const ManualRecharge = ({ userId }: any) => {
   const dispatch: any = useDispatch();
@@ -21,7 +22,8 @@ const ManualRecharge = ({ userId }: any) => {
   const columns = useMemo(() => {
     const baseColumns = [
       { Header: "SNO", accessor: "sno" },
-      { Header: "Amount", accessor: "amount" }
+      { Header: "Amount", accessor: "amount" },
+      { Header: "Date/Time", accessor: "date" }
     ];
     return baseColumns;
   }, [user]);
@@ -48,6 +50,7 @@ const ManualRecharge = ({ userId }: any) => {
                                 <tr key={manualrecharge._id}>
                                     <td>{++index}</td>
                                     <td>{manualrecharge.amount}</td>
+                                    <td>{moment(manualrecharge.createdAt).format("DD MMM YY, h:mm A")}</td>
                                 </tr>
                             ))}
                         </>

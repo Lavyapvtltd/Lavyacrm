@@ -8,6 +8,7 @@ const Navdata = () => {
   const [bottleBreak, setBottle] = useState(false);
   const [vendor, setVendor] = useState(false);
   const [user, setUser] = useState(false);
+  const [vacations,setVacations] = useState(false);
   const [categories, setCategories] = useState(false);
   const [order, setOrder] = useState(false);
   const [delivery, setDelivery] = useState(false);
@@ -193,6 +194,32 @@ const Navdata = () => {
             setIsSignIn(!isSignIn);
           },
           parentId: "User",
+          stateVariables: isSignIn,
+        },
+      ],
+    },
+    {
+      id: "user-vacations",
+      label: "User Vacations",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setVacations(!vacations);
+        setIsCurrentState("Vactions");
+        updateIconSidebar(e);
+      },
+      stateVariables: vacations,
+      subItems: [
+        {
+          id: "user-vacations",
+          label: "User Vacations",
+          link: "/user-vacations",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignIn(!isSignIn);
+          },
+          parentId: "Vactions",
           stateVariables: isSignIn,
         },
       ],
@@ -544,6 +571,17 @@ const Navdata = () => {
           id: "cancelled-by-admin",
           label: "Admin cancelled Orders",
           link: "/order/cancelled-by-admin-order",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Orders",
+          stateVariables: isSignUp,
+        },
+        {
+          id: "delivered-subscription",
+          label: "Delivered Subcription",
+          link: "/order/delivered-subscription",
           click: function (e: any) {
             e.preventDefault();
             setIsSignUp(!isSignUp);
