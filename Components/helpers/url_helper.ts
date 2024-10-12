@@ -171,7 +171,7 @@ export const EDIT_FIRST_TIME_RECHARGE = "/first-time-recharge/update-first-time-
 export const DELETE_FIRST_TIME_RECHARGE = "/first-time-recharge/delete-by-id"
 export const CHANGE_STATUS_BY_ID = "/first-time-recharge/status-changestatusById-by-id"
 
-export const CHECK_WALLET_REQUEST =
+export const CHECK_WALLET_REQUEST = 
   "/recharge-via-cash/fetch-request-for-recharge";
 
 export const DELETELOCATION = "/location/delete-location/";

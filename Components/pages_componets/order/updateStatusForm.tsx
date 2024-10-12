@@ -18,14 +18,14 @@ import { GetAllPartner } from "Components/slices/partner/thunk";
 const status = [
   "DELIVERED",
   "ORDERED",
-  "ONTHEEWAY",
+  "ONTHEEWAY", 
   "PROCCESSING",
   "FAILED",
   "DECLINED",
   "ASSIGNED",
 ];
 const UpdateStatus = () => {
-  const dispatch: any = useDispatch();
+  const dispatch: any = useDispatch(); 
   const [showStatus, setShowStatus] = useState(true);
   const { selectedorder, partnerData } = useSelector((state: any) => ({
     selectedorder: state.order.selectedorder,
