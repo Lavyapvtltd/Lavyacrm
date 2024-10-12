@@ -31,7 +31,7 @@ const UpdateStatus = () => {
     selectedorder: state.order.selectedorder,
     partnerData: state.partner.partnerData,
   }));
-  const [StartDate,setStartDate] = useState(selectedorder.deliveryDate);
+  const [StartDate,setStartDate] = useState(moment(selectedorder.deliveryDate, "Do MMM YYYY").format("YYYY-MM-DD"));
 
   const formik: any = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -45,7 +45,7 @@ const UpdateStatus = () => {
       orderstatus: Yup.string().required("Please update status"),
     }),
     onSubmit: (values) => {
-      dispatch(AssigneOrder(selectedorder._id, values, StartDate, setShowStatus));
+      dispatch(AssigneOrder(selectedorder._id, values,moment(StartDate, "YYYY-MM-DD").format("Do MMM YYYY"), setShowStatus));
       formik.resetForm();
     },
   });
@@ -365,7 +365,7 @@ console.log("partnerDatapartnerData"+JSON.stringify(partnerData))
                         <Form.Control
                           className="form-control"
                           placeholder="Enter Delivery Date"
-                          type="text"
+                          type="date"
                           onChange={(e:any)=>setStartDate(e.target.value)}
                           value={StartDate}
                         />

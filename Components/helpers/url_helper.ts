@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.29:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.29:9291/resources/";
+// export const baseURL = "http://192.168.1.15:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.15:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -107,6 +107,7 @@ export const EDIT_PRODUCT_STATUS = "/product/update-product-status";
 export const GET_ALL_ORDERS = "/order/get-all-orders";
 export const UPDATE_ORDER = "/order/update-order-by-id";
 export const ASSIGN_ORDER = "/order/assign-to-partner";
+export const DEFINE_ROUTE = "/order/define-route/"
 /* ORDER */
 
 /* ORDER */
