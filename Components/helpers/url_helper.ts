@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.15:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.15:9291/resources/";
+// export const baseURL = "http://192.168.1.5:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.5:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -58,6 +58,13 @@ export const GET_UPCOMMINGEVENT = "/upcommingevents";
 export const ADD_NEW_EVENT = "/add/event";
 export const UPDATE_EVENT = "/update/event";
 export const DELETE_EVENT = "/delete/event";
+
+//CONTACT FROM 
+export const GET_ALL_CONTACT_FORM = "/contact-form/get-all-contact"
+
+
+//SUBSCRIBE EMAIL 
+export const GET_ALL_SUBSCRIBE_MAILS = "/user-subscribe/get-all-subscribe-user"
 
 // API Key
 export const GET_API_KEY = "/api-key";

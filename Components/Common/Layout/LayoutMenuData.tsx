@@ -16,6 +16,8 @@ const Navdata = () => {
   const [recharge, setRecharge] = useState(false);
   const [firsttimerecharge, setfirsttimeRecharge] = useState(false);
   const [testimonial,setTestimonial] = useState(false);
+  const [contactForm,setContactForm] = useState(false);
+  const [subscribeMail,setSubscibeMail] = useState(false);
   const [isPages, setIsPages] = useState(false);
   const [isMultiLevel, setIsMultiLevel] = useState(false);
 
@@ -971,6 +973,58 @@ const Navdata = () => {
           },
           parentId: "testimonial",
           stateVariables: "testimonial",
+        },
+      ],
+    },
+    {
+      id: "contactform",
+      label: "ContactForms",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setContactForm(!contactForm);
+        setIsCurrentState("contactform");
+        updateIconSidebar(e);
+      },
+      stateVariables: contactForm,
+      subItems: [
+        {
+          id: "contactform",
+          label: "contactforms",
+          link: "/contact-form",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "contactform",
+          stateVariables: "contactform",
+        },
+      ],
+    },
+    {
+      id: "subscribemail",
+      label: "SubscribeMails",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setSubscibeMail(!subscribeMail);
+        setIsCurrentState("subscribemail");
+        updateIconSidebar(e);
+      },
+      stateVariables: subscribeMail,
+      subItems: [
+        {
+          id: "subscribemail",
+          label: "SubscribeMails",
+          link: "/subscribe-mail",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "subscribemail",
+          stateVariables: "subscribemail",
         },
       ],
     },
