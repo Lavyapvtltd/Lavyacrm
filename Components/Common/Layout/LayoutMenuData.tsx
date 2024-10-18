@@ -34,6 +34,7 @@ const Navdata = () => {
   const [hub, setHub] = useState(false);
   const [partner, setPartner] = useState(false);
   const [banner, setBanner] = useState(false);
+  const [slider,setSlider] = useState(false);
   const [membership, setMembership] = useState(false);
   const [city, setCity] = useState(false);
   const [content, setContent] = useState(false);
@@ -847,6 +848,32 @@ const Navdata = () => {
       ],
     },
     {
+      id: "Upload-Silder",
+      label: "Silder",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setSlider(!slider);
+        setIsCurrentState("banner");
+        updateIconSidebar(e);
+      },
+      stateVariables: slider,
+      subItems: [
+        {
+          id: "slider",
+          label: "Silder",
+          link: "/slider",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "Upload-Slider",
+          stateVariables: "Upload-Silder",
+        },
+      ],
+    },
+    {
       id: "Upload-Banner",
       label: "Banner",
       icon: "bi bi-person-circle",
@@ -978,7 +1005,7 @@ const Navdata = () => {
     },
     {
       id: "contactform",
-      label: "ContactForms",
+      label: "Form",
       icon: "bi bi-person-circle",
       link: "/#",
       click: function (e: any) {
@@ -991,7 +1018,7 @@ const Navdata = () => {
       subItems: [
         {
           id: "contactform",
-          label: "contactforms",
+          label: "Form",
           link: "/contact-form",
           click: function (e: any) {
             e.preventDefault();
@@ -1004,7 +1031,7 @@ const Navdata = () => {
     },
     {
       id: "subscribemail",
-      label: "SubscribeMails",
+      label: "SubscribeMail",
       icon: "bi bi-person-circle",
       link: "/#",
       click: function (e: any) {
@@ -1017,7 +1044,7 @@ const Navdata = () => {
       subItems: [
         {
           id: "subscribemail",
-          label: "SubscribeMails",
+          label: "SubscribeMail",
           link: "/subscribe-mail",
           click: function (e: any) {
             e.preventDefault();

@@ -33,6 +33,7 @@ import membershipSlice from "./membership/reducer";
 import userSlices from "./user/reducer";
 import firsttimerechargeSlices from './first_time_recharge/reducer';
 import testimonialSlices from './testimonial/reducer';
+import sliderSlices from "./slider/reducer";
 import bannerSlices from './banner/reducer';
 import userVacationsSlice from './user_vacations/reducer'
 
@@ -61,6 +62,7 @@ const combinedReducer = combineReducers({
   first_time_recharge:firsttimerechargeSlices,
   testimonial:testimonialSlices,
   banner:bannerSlices,
+  silder:sliderSlices,
   uservacations:userVacationsSlice
 });
 

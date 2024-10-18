@@ -158,6 +158,13 @@ export const DELETE_BANNER = "/banner/delete-banner-by-id/"
 export const UPDATE_BANNER = "/banner/update-banner-by-id/"
 export const UPDATE_BANNER_STATUS = "/banner/update-banner-status/";
 
+//SILDERS
+export const GET_ALL_SLIDER = "/slider/get-all-sliders-for-admin";
+export const UPLOAD_SLIDER = "/slider/upload-slider-image";
+export const DELETE_SLIDER = "/slider/delete-slider-by-id/"
+export const UPDATE_SLIDER = "/slider/update-slider-by-id/"
+export const UPDATE_SLIDER_STATUS = "/slider/update-slider-status/";
+
 export const CREATE_MEMBERSHIP = "/vip/membership/subscribe-new-membership";
 
 export const CREATE_NEW_MEMBERSHIP = "/vip/membership/create-new-membership";
