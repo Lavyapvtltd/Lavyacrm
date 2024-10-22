@@ -18,6 +18,7 @@ const Navdata = () => {
   const [testimonial,setTestimonial] = useState(false);
   const [contactForm,setContactForm] = useState(false);
   const [subscribeMail,setSubscibeMail] = useState(false);
+  const [review,setReview] = useState(false);
   const [isPages, setIsPages] = useState(false);
   const [isMultiLevel, setIsMultiLevel] = useState(false);
 
@@ -1005,7 +1006,7 @@ const Navdata = () => {
     },
     {
       id: "contactform",
-      label: "Form",
+      label: "Form To Contact",
       icon: "bi bi-person-circle",
       link: "/#",
       click: function (e: any) {
@@ -1018,7 +1019,7 @@ const Navdata = () => {
       subItems: [
         {
           id: "contactform",
-          label: "Form",
+          label: "Form To Contact",
           link: "/contact-form",
           click: function (e: any) {
             e.preventDefault();
@@ -1031,7 +1032,7 @@ const Navdata = () => {
     },
     {
       id: "subscribemail",
-      label: "SubscribeMail",
+      label: "Subscribe Mail",
       icon: "bi bi-person-circle",
       link: "/#",
       click: function (e: any) {
@@ -1044,7 +1045,7 @@ const Navdata = () => {
       subItems: [
         {
           id: "subscribemail",
-          label: "SubscribeMail",
+          label: "Subscribe Mail",
           link: "/subscribe-mail",
           click: function (e: any) {
             e.preventDefault();
@@ -1052,6 +1053,32 @@ const Navdata = () => {
           },
           parentId: "subscribemail",
           stateVariables: "subscribemail",
+        },
+      ],
+    },
+    {
+      id: "review",
+      label: "Review",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setReview(!review);
+        setIsCurrentState("review");
+        updateIconSidebar(e);
+      },
+      stateVariables: review,
+      subItems: [
+        {
+          id: "review",
+          label: "Review",
+          link: "/review",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "review",
+          stateVariables: "review",
         },
       ],
     },

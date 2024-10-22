@@ -3,12 +3,12 @@
 // export const imagebaseURL = "http://18.204.165.219:9291/resources/";
 
 // // // LIVE;
-export const baseURL = "https://api.lavyacompany.com/api/v1";
-export const imagebaseURL = "https://api.lavyacompany.com/resources/";
+// export const baseURL = "https://api.lavyacompany.com/api/v1";
+// export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.5:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.5:9291/resources/";
+export const baseURL = "http://192.168.1.18:9291/api/v1";
+export const imagebaseURL = "http://192.168.1.18:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -64,7 +64,11 @@ export const GET_ALL_CONTACT_FORM = "/contact-form/get-all-contact"
 
 
 //SUBSCRIBE EMAIL 
-export const GET_ALL_SUBSCRIBE_MAILS = "/user-subscribe/get-all-subscribe-user"
+export const GET_ALL_SUBSCRIBE_MAILS = "/user-subscribe/get-all-subscribe-user";
+
+//RATING
+export const GET_ALL_RATING = "/rating/get-all-rating-for-admin";
+export const DELETE_REVIEW = "/rating/delete-rating/";
 
 // API Key
 export const GET_API_KEY = "/api-key";
