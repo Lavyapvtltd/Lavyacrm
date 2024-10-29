@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
+import { off } from "process";
 const Navdata = () => {
   //state data
   const [isAuth, setIsAuth] = useState(false);
@@ -36,6 +37,7 @@ const Navdata = () => {
   const [partner, setPartner] = useState(false);
   const [banner, setBanner] = useState(false);
   const [slider,setSlider] = useState(false);
+  const [offerHeading,setOfferHeading] = useState(false);
   const [membership, setMembership] = useState(false);
   const [city, setCity] = useState(false);
   const [content, setContent] = useState(false);
@@ -845,6 +847,32 @@ const Navdata = () => {
           },
           parentId: "Offer-creation",
           stateVariables: "Offer-creation",
+        },
+      ],
+    },
+    {
+      id: "offer-heading",
+      label: "Offer Heading",
+      icon: "bi bi-person-circle",
+      link: "/#",
+      click: function (e: any) {
+        e.preventDefault();
+        setOfferHeading(!offerHeading);
+        setIsCurrentState("offer-heading");
+        updateIconSidebar(e);
+      },
+      stateVariables: offerHeading,
+      subItems: [
+        {
+          id: "offer-heading",
+          label: "Offer Heading",
+          link: "/offer-heading",
+          click: function (e: any) {
+            e.preventDefault();
+            setIsSignUp(!isSignUp);
+          },
+          parentId: "offer-heading",
+          stateVariables: "offer-heading",
         },
       ],
     },

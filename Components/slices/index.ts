@@ -36,6 +36,7 @@ import testimonialSlices from './testimonial/reducer';
 import sliderSlices from "./slider/reducer";
 import bannerSlices from './banner/reducer';
 import userVacationsSlice from './user_vacations/reducer'
+import offerHeadingSlices from './offer_heading/reducer'
 
 const combinedReducer = combineReducers({
   Layout: LayoutReducer,
@@ -63,7 +64,8 @@ const combinedReducer = combineReducers({
   testimonial:testimonialSlices,
   banner:bannerSlices,
   silder:sliderSlices,
-  uservacations:userVacationsSlice
+  uservacations:userVacationsSlice,
+  offerheadings:offerHeadingSlices
 });
 
 const reducer = (state: any, action: AnyAction) => {

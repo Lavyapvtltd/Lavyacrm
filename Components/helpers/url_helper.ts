@@ -7,8 +7,8 @@ export const baseURL = "https://api.lavyacompany.com/api/v1";
 export const imagebaseURL = "https://api.lavyacompany.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.18:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.18:9291/resources/";
+// export const baseURL = "http://192.168.1.15:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.15:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -168,6 +168,12 @@ export const UPLOAD_SLIDER = "/slider/upload-slider-image";
 export const DELETE_SLIDER = "/slider/delete-slider-by-id/"
 export const UPDATE_SLIDER = "/slider/update-slider-by-id/"
 export const UPDATE_SLIDER_STATUS = "/slider/update-slider-status/";
+
+//OFFER HEADING
+export const CREATE_OFFER_HEADING = '/offer-heading/create-offer-heading';
+export const GET_ALL_OFFER_HEADING = '/offer-heading/get-all-offer-heading';
+export const EDIT_OFFER_HEADING = '/offer-heading/edit-offer-heading/'
+export const DELETE_OFFER_HEADING = '/offer-heading/delete-offer-heading/'
 
 export const CREATE_MEMBERSHIP = "/vip/membership/subscribe-new-membership";
 
