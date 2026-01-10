@@ -22,9 +22,10 @@ export const GetAllBanner = () => async (dispatch: any) => {
 
 export const Uploadbanner = (values: any) => async (dispatch: any) => {
   try {
-    console.log(values,"dt")
+    
     const form = new FormData();
     form.append("upload", values.image);
+
     const options = {
       method: "POST",
       url: `${baseURL}${UPLOAD_BANNER}`,

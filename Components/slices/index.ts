@@ -37,6 +37,7 @@ import sliderSlices from "./slider/reducer";
 import bannerSlices from './banner/reducer';
 import userVacationsSlice from './user_vacations/reducer'
 import offerHeadingSlices from './offer_heading/reducer'
+import TrialSlice from "./trial/reducer"
 
 const combinedReducer = combineReducers({
   Layout: LayoutReducer,
@@ -65,7 +66,8 @@ const combinedReducer = combineReducers({
   banner:bannerSlices,
   silder:sliderSlices,
   uservacations:userVacationsSlice,
-  offerheadings:offerHeadingSlices
+  offerheadings:offerHeadingSlices,
+  TrialSlice : TrialSlice
 });
 
 const reducer = (state: any, action: AnyAction) => {

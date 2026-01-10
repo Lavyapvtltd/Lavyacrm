@@ -7,8 +7,8 @@ export const baseURL = "https://api.mylavya.com/api/v1";
 export const imagebaseURL = "https://api.mylavya.com/resources/";
 
 // LOCAL;
-// export const baseURL = "http://192.168.1.15:9291/api/v1";
-// export const imagebaseURL = "http://192.168.1.15:9291/resources/";
+// export const baseURL = "http://192.168.1.12:9291/api/v1";
+// export const imagebaseURL = "http://192.168.1.12:9291/resources/";
 
 // export const baseURL = "http://192.168.1.13:9291/api/v1";
 // export const imagebaseURL = "http://192.168.1.13:9291/resources/";
@@ -222,3 +222,12 @@ export const GET_ALL_PURCHAES = "/accounting/get-all-purchase-by-user"
 export const CREATE_EXPENSES = "/accounting/expenses"
 export const GET_ALL_EXPENSES = "/accounting/get-all-expenses"
 export const UPDATE_GIVEN_AMOUNT = "/accounting/update-given-amount-by-id/"
+
+
+// Trial 
+export const  GET_TRIAL = "/trial/get-all-trials"
+
+export const  NEW_TRIAL = "/trial/add-new-trial"
+export const  UPDATE_TRIAL = "/trial/update-trial-by-id"
+export const  DELETE_TRIAL = "/trial/delete-trial-by-id"
+

@@ -67,7 +67,7 @@ export const PostProduct = (values: any) => async (dispatch: any) => {
     const apifetch = await axios.request(options);
     dispatch(api_is_loading(true));
     const response: any = await apifetch;
-    console.log(response,"lll");
+    
     dispatch(api_is_loading(false));
     if (response.status === 1) {
       dispatch(SingleProductImage(values,response.response._id));

@@ -1,18 +1,19 @@
 import React, { ReactElement } from 'react';
 import Head from 'next/head';
 import Layout from '@common/Layout';
-import BannerTable from 'Components/pages_componets/banner/bannerTable';
-import Form from 'Components/pages_componets/banner/form';
+import Form from 'Components/pages_componets/trialpack/form';
+import TrialTable from 'Components/pages_componets/trialpack/trialtable';
 
 const index = () => {
 	return (
 		<React.Fragment>
 			<Head>
-				<title>Banner | Lavya -Admin </title>
+				<title>Trial Packs | Lavya -Admin </title>
 			</Head>
 			<div className='page-content'>
 				<Form />
-				<BannerTable />
+				<TrialTable />
+				{/* <SilderTable /> */}
 			</div>
 		</React.Fragment>
 	);
