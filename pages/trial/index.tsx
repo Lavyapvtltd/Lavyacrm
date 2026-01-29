@@ -8,7 +8,7 @@ const index = () => {
 	return (
 		<React.Fragment>
 			<Head>
-				<title>Trial Packs | Lavya -Admin </title>
+				<title>Trial Packs | velorm -Admin </title>
 			</Head>
 			<div className='page-content'>
 				<Form />

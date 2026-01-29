@@ -159,7 +159,7 @@ const Navdata = () => {
 			document.body.classList.add('twocolumn-panel');
 		}
 		if (isCurrentState === 'Components') {
-			Router.push('https://lavya-backend-components.vercel.app/');
+			Router.push('https://velorm-backend-components.vercel.app/');
 			document.body.classList.add('twocolumn-panel');
 		}
 	}, [isCurrentState, isAuth, isPages, isMultiLevel]);
@@ -1229,7 +1229,7 @@ const Navdata = () => {
 		//   label: "Components",
 		//   icon: "bi bi-layers",
 		//   isBlankLink: true,
-		//   link: "https://lavya-backend-components.vercel.app/",
+		//   link: "https://velorm-backend-components.vercel.app/",
 		//   click: function (e: any) {
 		//     e.preventDefault();
 		//     setIsCurrentState("Components");
